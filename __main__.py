@@ -1,18 +1,20 @@
 import sys
+from Display.Game import Game
+from Display.Screen import Screen
+from PyQt5.QtWidgets import QApplication
 
-from PyQt5.QtWidgets import QMainWindow, QApplication
 
-
-class AsteroidsGame(QMainWindow):
+class AsteroidsGame:
     def __init__(self):
-        super().__init__()
+        self.screen = Screen(600, 400, "Asteroids")
+        self.game = Game(self.screen)
 
-        self.resize(600, 400)
-        self.setWindowTitle('Asteroids')
+    def start(self):
+        self.screen.show()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     asteroidsGame = AsteroidsGame()
-    asteroidsGame.show()
+    asteroidsGame.start()
     sys.exit(app.exec_())
