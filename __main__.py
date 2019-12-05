@@ -1,6 +1,6 @@
 import sys
-from Display.Game import Game
-from Display.Screen import Screen
+from core.Game import Game
+from core.Screen import Screen
 from PyQt5.QtWidgets import QApplication
 
 
@@ -11,6 +11,7 @@ class AsteroidsGame:
 
     def start(self):
         self.screen.show()
+        self.game.start()
 
 
 if __name__ == "__main__":
