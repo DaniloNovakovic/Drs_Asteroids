@@ -10,6 +10,3 @@ def are_circles_collided(left_circle: MovableCircle, right_circle: MovableCircle
     distance_between_circles_squared = (right_circle.x - left_circle.x) ** 2 + (right_circle.y - left_circle.y) ** 2
     return distance_between_circles_squared < (left_circle.r + right_circle.r) ** 2
 
-
-def is_circle_off_screen(circle: MovableCircle, screen_width: int, screen_height: int):
-    return circle.x < 0 or circle.x > screen_width or circle.y < 0 or circle.y > screen_height

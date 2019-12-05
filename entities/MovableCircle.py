@@ -9,3 +9,7 @@ class MovableCircle(MovableObject):
     def move_off_screen(self):
         self.x = 0 - self.r - 100
         self.y = 0 - self.r - 100
+
+    def is_off_screen(self, screen_width: int, screen_height: int):
+        return (self.x + self.r) < 0 or (self.x - self.r) > screen_width or \
+               (self.y + self.r) < 0 or (self.y - self.r) > screen_height

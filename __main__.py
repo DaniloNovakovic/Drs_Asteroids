@@ -5,7 +5,6 @@ from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
-from core.behaviors.divide_asteroid import DivideAsteroidBehavior
 from PyQt5.QtWidgets import QApplication
 
 
@@ -19,8 +18,7 @@ class AsteroidsGame:
         level_factory = LevelFactory()
         key_handler = KeyHandler()
         movement_handler = MovementHandler()
-        collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height,
-                                             divide_asteroid_behavior=DivideAsteroidBehavior())
+        collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
                          movement_handler=movement_handler, collision_handler=collision_handler)
