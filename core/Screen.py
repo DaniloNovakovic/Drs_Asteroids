@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow
+from persistance.Storage import Storage
 
 
 class Screen(QMainWindow):
@@ -6,3 +7,7 @@ class Screen(QMainWindow):
         super().__init__()
         self.resize(x, y)
         self.setWindowTitle(name)
+
+    def render(self, storage: Storage):
+        """TODO: Render objects from storage to screen"""
+        pass
