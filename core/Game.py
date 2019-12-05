@@ -17,6 +17,7 @@ class Game:
 
     def start(self):
         """TODO: Add timer & attach key pressed event handler"""
+        self.update(elapsed_time=1000)  # for testing purposes - change latter to be called periodically by timer
         pass
 
     def update(self, elapsed_time: float):

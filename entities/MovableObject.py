@@ -4,3 +4,4 @@ class MovableObject:
         self.y = y
         self.velocity = velocity
         self.angle = angle
+
