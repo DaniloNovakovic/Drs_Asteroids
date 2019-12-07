@@ -16,9 +16,13 @@ class Game:
         self.storage = level_factory.create_new()
 
     def start(self):
-        """TODO: Add timer & attach key pressed event handler"""
-        self.update(elapsed_time=1000)  # for testing purposes - change latter to be called periodically by timer
+        self.screen.keyPressed.connect(self.on_key_pressed)
+        # TODO: set self.update to be called periodically (by detached thread in while loop or timer)
+        self.update(elapsed_time=1000)
         pass
+
+    def on_key_pressed(self, pressed_key):
+        self.key_handler.handle(self.storage, pressed_key)
 
     def update(self, elapsed_time: float):
         self.movement_handler.handle(storage=self.storage, elapsed_time=elapsed_time)
