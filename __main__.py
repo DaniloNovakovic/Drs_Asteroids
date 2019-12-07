@@ -17,6 +17,7 @@ class AsteroidsGame:
         '''Dependency injection - here you can inject handlers/services into constructor'''
         level_factory = LevelFactory()
         key_handler = KeyHandler()
+        key_handler.show()
         movement_handler = MovementHandler()
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
