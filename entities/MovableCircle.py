@@ -13,3 +13,19 @@ class MovableCircle(MovableObject):
     def is_off_screen(self, screen_width: int, screen_height: int):
         return (self.x + self.r) < 0 or (self.x - self.r) > screen_width or \
                (self.y + self.r) < 0 or (self.y - self.r) > screen_height
+
+    def accelerate(self):
+        # TODO: Vladimir increase speed
+        pass
+
+    def decelerate(self):
+        # TODO: Vladimir decrease speed
+        pass
+
+    def rotate_left(self):
+        # TODO: Vladimir rotate left
+        pass
+
+    def rotate_right(self):
+        # TODO: Vladimir rotate right
+        pass
