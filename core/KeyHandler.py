@@ -7,18 +7,16 @@ class KeyHandler(QWidget):
     def __init__(self):
         super().__init__()
 
-    # def handle(self, storage: Storage, pressed_key):
-
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Up:
+    def handle(self, storage: Storage, pressed_key):
+        if pressed_key == Qt.Key_Up:
             self.go_front()
-        elif event.key() == Qt.Key_Down:
+        elif pressed_key == Qt.Key_Down:
             self.go_back()
-        elif event.key() == Qt.Key_Left:
+        elif pressed_key == Qt.Key_Left:
             self.go_left()
-        elif event.key() == Qt.Key_Right:
+        elif pressed_key == Qt.Key_Right:
             self.go_right()
-        elif event.key() == Qt.Key_Space:
+        elif pressed_key == Qt.Key_Space:
             self.shoot()
 
     def go_front(self):
