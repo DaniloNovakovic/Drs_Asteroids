@@ -6,6 +6,7 @@ from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
 from PyQt5.QtWidgets import QApplication
+from persistance.Storage import Storage
 
 
 class AsteroidsGame:
@@ -15,6 +16,7 @@ class AsteroidsGame:
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
+
         level_factory = LevelFactory()
         key_handler = KeyHandler()
         movement_handler = MovementHandler()
