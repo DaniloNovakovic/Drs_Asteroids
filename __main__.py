@@ -22,7 +22,7 @@ class AsteroidsGame:
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
-                         movement_handler=movement_handler, collision_handler=collision_handler)
+                         collision_handler=collision_handler)
 
     def start(self):
         self.screen.show()

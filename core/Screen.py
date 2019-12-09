@@ -26,13 +26,11 @@ class Screen(QWidget):
         pass
 
     def drawAsteroid(self, asteroid: Asteroid):
-        """TODO: Fix error where image is not displayed on screen properly"""
-
         image = QImage(asteroid.img_abs_path)
-        painter = QPainter()
+        """painter = QPainter()
         painter.begin(self)
         painter.drawImage(asteroid.x, asteroid.y, image)
-        painter.end()
+        painter.end()"""
 
         label = QLabel(self)
         label.setPixmap(QPixmap.fromImage(image))

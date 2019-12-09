@@ -22,3 +22,5 @@ class KeyHandler(QWidget):
             spaceship.rotate_right()
         elif pressed_key == Qt.Key_Space:
             storage.add_bullet(Bullet())
+        elif pressed_key == Qt.Key_Enter:
+            self.update(300)
