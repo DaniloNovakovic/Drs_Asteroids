@@ -15,16 +15,12 @@ class Screen(QWidget):
         super().__init__()
         self.resize(x, y)
         self.setWindowTitle(name)
-        self.le = QLineEdit(self)
-        self.le.move(10, 10)
 
     def keyPressEvent(self, event):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
 
     def render_storage(self, storage: Storage, elapsed_time: float = 0):
-        self.le.setText(str(elapsed_time))
-
         for asteroid in storage.get_all_asteroids():
             self.drawAsteroid(asteroid)
         pass
