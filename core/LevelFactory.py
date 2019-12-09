@@ -1,6 +1,8 @@
 from persistance.Storage import Storage
 from core.utils.Enums import AsteroidSize
 from core.utils import asteroid_factory
+from Drs_Asteroids.entities.Player import Player
+from Drs_Asteroids.entities.Spaceship import Spaceship
 
 
 class LevelFactory:
@@ -10,7 +12,9 @@ class LevelFactory:
 
     def create_new(self, level_number: int = 0) -> Storage:
         asteroids = self._create_new_asteroids(num_asteroids=level_number + 1)
-        return Storage(asteroids=asteroids)
+        player = Player(player_id='1', spaceship_id='1')
+        ship = Spaceship(400, 200, 2, -45, 1, '1', '1', 'green')
+        return Storage(asteroids=asteroids, players=[player], spacecrafts=[ship])
 
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
         asteroids = []

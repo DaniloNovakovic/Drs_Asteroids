@@ -16,6 +16,9 @@ class Storage:
     def get_all_spacecrafts(self):
         return self.spacecrafts
 
+    def get_all_bullets(self):
+        return self.bullets
+
     '''Getters for single objects on screen'''
 
     def get_player_by_id(self, player_id) -> Player:
