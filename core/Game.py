@@ -18,7 +18,7 @@ class Game:
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
         # TODO: set self.update to be called periodically (by detached thread in while loop or timer)
-        self.update(elapsed_time=1000)
+        self.update(elapsed_time=300)
         pass
 
     def on_key_pressed(self, pressed_key):
