@@ -1,6 +1,4 @@
-from entities.Player import Player
-from entities.Spaceship import Spaceship
-from entities.Bullet import Bullet
+from entities import Asteroid, Bullet, Player, Spaceship
 
 
 class Storage:
@@ -9,6 +7,16 @@ class Storage:
         self.players = list(players)
         self.spacecrafts = list(spacecrafts)
         self.bullets = list(bullets)
+
+    '''Getters for all objects on screen'''
+
+    def get_all_asteroids(self):
+        return self.asteroids
+
+    def get_all_spacecrafts(self):
+        return self.spacecrafts
+
+    '''Getters for single objects on screen'''
 
     def get_player_by_id(self, player_id) -> Player:
         for player in self.players:
@@ -26,5 +34,10 @@ class Storage:
                 return spaceship
         raise Exception(f"Spaceship with player id {player_id} not found!")
 
+    '''Object generators'''
+
     def add_bullet(self, bullet: Bullet):
         self.bullets.append(bullet)
+
+    def add_asteroid(self, asteroid: Asteroid):
+        self.asteroids.append(asteroid)
