@@ -3,7 +3,6 @@ from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
-import threading
 import time
 
 
@@ -20,18 +19,19 @@ class Game:
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
         # TODO: set self.update to be called periodically (by detached thread in while loop or timer)
-        self.update_loop(tick_frequency=30)
+        self.update(elapsed_time=0)  # for testing purposes (until we render asteroid properly)
+        # self.update_loop(tick_frequency=30)
         pass
 
     def on_key_pressed(self, pressed_key):
         self.key_handler.handle(self.storage, pressed_key)
 
     def update_loop(self, tick_frequency: int):
-        while():
-            self.update(1000/tick_frequency)
-            time.sleep(1/tick_frequency)
+        while ():
+            self.update(1000 / tick_frequency)
+            time.sleep(1 / tick_frequency)
 
     def update(self, elapsed_time: float):
         self.movement_handler.handle(storage=self.storage, elapsed_time=elapsed_time)
         self.collision_handler.handle(storage=self.storage)
-        self.screen.render(storage=self.storage)
+        self.screen.render_storage(storage=self.storage, elapsed_time=elapsed_time)

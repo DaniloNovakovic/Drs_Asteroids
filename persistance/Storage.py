@@ -1,6 +1,4 @@
-from Drs_Asteroids.core.utils.Enums import AsteroidSize
-from Drs_Asteroids.entities import Asteroid, Bullet, Player, Spaceship
-from Drs_Asteroids.core.utils import asteroid_factory
+from entities import Asteroid, Bullet, Player, Spaceship
 
 
 class Storage:
@@ -11,6 +9,7 @@ class Storage:
         self.bullets = list(bullets)
 
     '''Getters for all objects on screen'''
+
     def get_all_asteroids(self):
         return self.asteroids
 
@@ -18,6 +17,7 @@ class Storage:
         return self.spacecrafts
 
     '''Getters for single objects on screen'''
+
     def get_player_by_id(self, player_id) -> Player:
         for player in self.players:
             if player.player_id == player_id:
@@ -35,8 +35,9 @@ class Storage:
         raise Exception(f"Spaceship with player id {player_id} not found!")
 
     '''Object generators'''
+
     def add_bullet(self, bullet: Bullet):
         self.bullets.append(bullet)
 
-    def add_asteroid(self, size: AsteroidSize):
-        self.asteroids.append(asteroid_factory.create_asteroid(size, 300, 300))
+    def add_asteroid(self, asteroid: Asteroid):
+        self.asteroids.append(asteroid)

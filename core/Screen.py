@@ -1,10 +1,9 @@
 from PyQt5 import QtCore
-import os
-from PyQt5.QtCore import QRectF, QPoint, Qt
-from PyQt5.QtGui import QPainter, QImage, QPen, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QLineEdit, QWidget
+from PyQt5.QtCore import QPoint
+from PyQt5.QtGui import QPainter, QImage
+from PyQt5.QtWidgets import QLineEdit, QWidget
+from entities.Asteroid import Asteroid
 from persistance.Storage import Storage
-from Drs_Asteroids.core.utils.Enums import AsteroidSize
 
 
 class Screen(QWidget):
@@ -21,8 +20,8 @@ class Screen(QWidget):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
 
-    def render(self, storage: Storage, frame: int = 0):
-        self.le.setText(str(frame))
+    def render_storage(self, storage: Storage, elapsed_time: float = 0):
+        self.le.setText(str(elapsed_time))
 
         asteroids = storage.get_all_asteroids()
         spacecrafts = storage.get_all_spacecrafts()
@@ -33,22 +32,13 @@ class Screen(QWidget):
             self.drawAsteroid(painter, asteroid)
         pass
 
-    def drawAsteroid(self, painter: QPainter, asteroid):
-        if asteroid.size == AsteroidSize.large:
-            img_name = "large_asteroid.png"
-        elif asteroid.size == AsteroidSize.medium:
-            img_name = "medium_asteroid.png"
-        elif asteroid.size == AsteroidSize.small:
-            img_name = "small_asteroid.png"
+    def drawAsteroid(self, painter: QPainter, asteroid: Asteroid):
+        """TODO: Fix error where image is not displayed on screen properly"""
 
-        script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-        rel_path = "Resources\\" + img_name
-        abs_file_path = os.path.join(script_dir, rel_path)
-        print(abs_file_path)
-        src_image = QImage(abs_file_path)
+        src_image = QImage(asteroid.img_abs_path)
         if src_image.isNull():
-            print("Failed to load image %s" % abs_file_path)
+            print("Failed to load image %s" % asteroid.img_abs_path)
         painter.begin(self)
-        """Ne prikazuje nikakvu sliku"""
+
         painter.drawImage(QPoint(100, 100), src_image)
         painter.end()
