@@ -1,15 +1,7 @@
-from pathlib import Path
 from random import randint
 from entities.Asteroid import Asteroid
 from core.utils.Enums import AsteroidSize
-import os
-
-
-def _get_full_image_path(img_name: str) -> str:
-    script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-    rel_path = "..\\Resources\\" + img_name
-    abs_file_path = Path(os.path.join(script_dir, rel_path)).resolve()
-    return str(abs_file_path)
+from Drs_Asteroids.core.utils.image_helper import _get_full_image_path
 
 
 def create_asteroid(asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:

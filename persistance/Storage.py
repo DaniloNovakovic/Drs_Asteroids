@@ -44,3 +44,6 @@ class Storage:
 
     def add_asteroid(self, asteroid: Asteroid):
         self.asteroids.append(asteroid)
+
+    def add_spaceship(self, spaceship: Spaceship):
+        self.spacecrafts.append(spaceship)

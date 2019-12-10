@@ -10,8 +10,8 @@ from PyQt5.QtWidgets import QApplication
 
 class AsteroidsGame:
     def __init__(self):
-        screen_width = 600
-        screen_height = 400
+        screen_width = 1000
+        screen_height = 600
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
