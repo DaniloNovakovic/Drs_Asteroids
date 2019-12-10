@@ -3,6 +3,7 @@ from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
 from Drs_Asteroids.core.MovementHandler import calculate_new_positions
 from core.CollisionHandler import CollisionHandler
+from Drs_Asteroids.entities.Spaceship import Spaceship
 from PyQt5.QtCore import QThread
 import threading
 import time
@@ -22,6 +23,9 @@ class Game:
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
         # TODO: set self.update to be called periodically (by detached thread in while loop or timer)
+
+        #self.storage.add_spaceship(Spaceship(200, 200, 2, 0, 30, '1', self.playerID, 'green'))
+
         self.update(elapsed_time=300)  # for testing purposes (until we render asteroid properly)
         """
         update_thread = QThread(target=self.update_loop, args=[1])
@@ -32,6 +36,7 @@ class Game:
         update_thread.start()
         update_thread.join()
         """
+
         pass
 
     def on_key_pressed(self, pressed_key):
