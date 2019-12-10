@@ -32,6 +32,7 @@ class Game:
         update_thread.start()
         update_thread.join()
         """
+
         pass
 
     def on_key_pressed(self, pressed_key):
