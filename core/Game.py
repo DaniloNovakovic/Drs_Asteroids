@@ -1,9 +1,9 @@
 from core.Screen import Screen
 from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
-from Drs_Asteroids.core.MovementHandler import calculate_new_positions
+from core.MovementHandler import calculate_new_positions
 from core.CollisionHandler import CollisionHandler
-from Drs_Asteroids.entities.Spaceship import Spaceship
+from entities.Spaceship import Spaceship
 from PyQt5.QtCore import QThread
 import threading
 import time

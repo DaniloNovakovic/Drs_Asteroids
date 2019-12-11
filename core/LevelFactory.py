@@ -1,9 +1,10 @@
 from persistance.Storage import Storage
-from Drs_Asteroids.core.utils.Enums import AsteroidSize, SpaceshipColor
-from Drs_Asteroids.core.utils import asteroid_factory, spaceship_factory, bullet_factory
-from Drs_Asteroids.entities.Player import Player
-from Drs_Asteroids.entities.Spaceship import Spaceship
+from core.utils.Enums import AsteroidSize, SpaceshipColor
+from core.utils import asteroid_factory, spaceship_factory, bullet_factory
+from entities.Player import Player
+from entities.Spaceship import Spaceship
 from random import randint
+
 
 class LevelFactory:
     def __init__(self, screen_width, screen_height):

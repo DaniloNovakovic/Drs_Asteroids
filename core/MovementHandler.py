@@ -1,6 +1,6 @@
 from persistance.Storage import Storage
 from math import sin, cos, radians
-from Drs_Asteroids.entities import Asteroid, Bullet, Spaceship
+from entities import Asteroid, Bullet, Spaceship
 
 
 def calculate_new_positions(storage: Storage, elapsed_time: float):

@@ -1,4 +1,4 @@
-from Drs_Asteroids.entities.MovableCircle import MovableCircle
+from entities.MovableCircle import MovableCircle
 
 
 class Bullet(MovableCircle):

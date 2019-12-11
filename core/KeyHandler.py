@@ -8,7 +8,6 @@ from persistance.Storage import Storage
 class KeyHandler(QWidget):
     def __init__(self):
         super().__init__()
-        player_id = Storage.get_first_player_id
 
     def handle(self, storage: Storage, pressed_key, player_id):
         spaceship = storage.get_spaceship_by_player_id(player_id)

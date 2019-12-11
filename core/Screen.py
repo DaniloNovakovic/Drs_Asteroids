@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPainter, QImage, QPen
 from PyQt5.QtWidgets import QLineEdit, QWidget, QLabel
 from PyQt5.QtGui import QIcon, QPixmap
 
-from Drs_Asteroids.entities import Asteroid, Spaceship, Bullet
+from entities import Asteroid, Spaceship, Bullet
 from persistance.Storage import Storage
 
 

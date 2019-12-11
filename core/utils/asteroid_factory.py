@@ -1,7 +1,7 @@
 from random import randint
 from entities.Asteroid import Asteroid
 from core.utils.Enums import AsteroidSize
-from Drs_Asteroids.core.utils.image_helper import _get_full_image_path
+from core.utils.image_helper import _get_full_image_path
 
 
 def create_asteroid(asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:

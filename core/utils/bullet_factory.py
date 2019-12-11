@@ -1,5 +1,5 @@
-from Drs_Asteroids.entities.Bullet import Bullet
-from Drs_Asteroids.core.utils.image_helper import _get_full_image_path
+from entities.Bullet import Bullet
+from core.utils.image_helper import _get_full_image_path
 
 
 def create_bullet(player_id: str, color: str, x: int = 0, y: int = 0, velocity: float = 0,
