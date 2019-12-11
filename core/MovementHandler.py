@@ -1,6 +1,4 @@
 from persistance.Storage import Storage
-<<<<<<< Updated upstream
-=======
 from math import sin, cos, radians
 from entities import Asteroid, Bullet, Spaceship
 from datetime import datetime
@@ -23,21 +21,11 @@ class MovementHandler:
         for asteroid in storage.get_all_asteroids():
             asteroid.x = asteroid.x + cos(radians(asteroid.angle)) * asteroid.velocity * elapsed_time
             asteroid.y = asteroid.y + sin(radians(asteroid.angle)) * asteroid.velocity * elapsed_time
->>>>>>> Stashed changes
 
         for bullet in storage.get_all_bullets():
             bullet.x = bullet.x + cos(radians(bullet.angle)) * bullet.velocity * elapsed_time
             bullet.y = bullet.y + sin(radians(bullet.angle)) * bullet.velocity * elapsed_time
-
-<<<<<<< Updated upstream
-class MovementHandler:
-    def __init__(self):
-        pass
-
-    def handle(self, storage: Storage, elapsed_time: float):
-        pass
-=======
+            
         for spacecraft in storage.get_all_spacecrafts():
             spacecraft.x = spacecraft.x + cos(radians(spacecraft.angle)) * spacecraft.velocity * elapsed_time
             spacecraft.y = spacecraft.y + sin(radians(spacecraft.angle)) * spacecraft.velocity * elapsed_time
->>>>>>> Stashed changes

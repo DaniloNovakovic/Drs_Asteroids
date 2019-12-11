@@ -11,8 +11,8 @@ from datetime import datetime
 
 class AsteroidsGame:
     def __init__(self):
-        screen_width = 600
-        screen_height = 400
+        screen_width = 1000
+        screen_height = 600
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
@@ -23,11 +23,7 @@ class AsteroidsGame:
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
-<<<<<<< Updated upstream
-                         movement_handler=movement_handler, collision_handler=collision_handler)
-=======
                          collision_handler=collision_handler, movement_handler=movement_handler)
->>>>>>> Stashed changes
 
     def start(self):
         self.screen.show()

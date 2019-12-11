@@ -1,6 +1,9 @@
 from persistance.Storage import Storage
-from core.utils.Enums import AsteroidSize
-from core.utils import asteroid_factory
+from core.utils.Enums import AsteroidSize, SpaceshipColor
+from core.utils import asteroid_factory, spaceship_factory, bullet_factory
+from entities.Player import Player
+from entities.Spaceship import Spaceship
+from random import randint
 
 
 class LevelFactory:
@@ -9,10 +12,6 @@ class LevelFactory:
         self.screen_height = screen_height
 
     def create_new(self, level_number: int = 0) -> Storage:
-<<<<<<< Updated upstream
-        asteroids = self._create_new_asteroids(num_asteroids=level_number + 1)
-        return Storage(asteroids=asteroids)
-=======
         asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
         player1 = Player(player_id='1', spaceship_id='1')
         player2 = Player('2', '2')
@@ -31,11 +30,12 @@ class LevelFactory:
         return Storage(asteroids=asteroids, players=[player1, player2, player3, player4],
                        spacecrafts=[ship1, ship2, ship3, ship4],
                        bullets=[bullet1, bullet2, bullet3, bullet4])
->>>>>>> Stashed changes
-
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
         asteroids = []
         for _ in range(num_asteroids):
             # TODO: Randomize x,y for asteroid based on screen_width & screen_height
-            asteroids.append(asteroid_factory.create_asteroid(AsteroidSize.medium, x=300, y=300))
+            asteroid = asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = randint(asteroid.r, self.screen_width - asteroid.r)
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroids.append(asteroid)
         return asteroids

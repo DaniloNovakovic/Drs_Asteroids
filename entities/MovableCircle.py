@@ -15,17 +15,13 @@ class MovableCircle(MovableObject):
                (self.y + self.r) < 0 or (self.y - self.r) > screen_height
 
     def accelerate(self):
-        # TODO: Vladimir increase speed
-        pass
+        self.velocity = self.velocity + 0.1
 
     def decelerate(self):
-        # TODO: Vladimir decrease speed
-        pass
+        self.velocity = self.velocity - 0.1
 
     def rotate_left(self):
-        # TODO: Vladimir rotate left
-        pass
+        self.angle = self.angle + 0.4
 
     def rotate_right(self):
-        # TODO: Vladimir rotate right
-        pass
+        self.angle = self.angle - 0.4
