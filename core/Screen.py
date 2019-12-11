@@ -22,8 +22,15 @@ class Screen(QWidget):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
 
+<<<<<<< Updated upstream
     def render_storage(self, storage: Storage, elapsed_time: float = 0):
         self.le.setText(str(elapsed_time))
+=======
+    def render_storage(self, storage: Storage):
+        # TODO: implement drawing with QPainter
+        for asteroid in storage.get_all_asteroids():
+            self.draw_asteroid(asteroid)
+>>>>>>> Stashed changes
 
         for asteroid in storage.get_all_asteroids():
             self.drawAsteroid(asteroid)

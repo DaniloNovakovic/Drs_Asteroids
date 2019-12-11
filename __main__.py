@@ -6,6 +6,7 @@ from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
 from PyQt5.QtWidgets import QApplication
+from datetime import datetime
 
 
 class AsteroidsGame:
@@ -18,11 +19,15 @@ class AsteroidsGame:
 
         level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height)
         key_handler = KeyHandler()
-        movement_handler = MovementHandler()
+        movement_handler = MovementHandler(datetime.now())
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
+<<<<<<< Updated upstream
                          movement_handler=movement_handler, collision_handler=collision_handler)
+=======
+                         collision_handler=collision_handler, movement_handler=movement_handler)
+>>>>>>> Stashed changes
 
     def start(self):
         self.screen.show()
