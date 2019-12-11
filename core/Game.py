@@ -39,11 +39,6 @@ class Game:
     def on_key_pressed(self, pressed_key):
         self.key_handler.handle(self.storage, pressed_key, self.playerID)
 
-    def update_loop(self, tick_frequency: int):
-        while 1:
-            self.update(1000 / tick_frequency)
-            time.sleep(1 / tick_frequency)
-
     def update(self, current_time: datetime):
         print('tick')
         # TODO: clear the screen before every update
