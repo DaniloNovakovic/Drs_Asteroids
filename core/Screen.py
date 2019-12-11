@@ -21,7 +21,7 @@ class Screen(QWidget):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
 
-    def render_storage(self, storage: Storage, elapsed_time: float = 0):
+    def render_storage(self, storage: Storage):
         # TODO: implement drawing with QPainter
         for asteroid in storage.get_all_asteroids():
             self.draw_asteroid(asteroid)

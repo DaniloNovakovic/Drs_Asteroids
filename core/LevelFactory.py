@@ -17,10 +17,10 @@ class LevelFactory:
         player2 = Player('2', '2')
         player3 = Player('3', '3')
         player4 = Player('4', '4')
-        ship1 = spaceship_factory.create_spaceship('1', '1', 'red', x=100, y=80)
-        ship2 = spaceship_factory.create_spaceship('2', '2', 'blue', x=300, y=80)
-        ship3 = spaceship_factory.create_spaceship('3', '3', 'yellow', x=100, y=250)
-        ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250)
+        ship1 = spaceship_factory.create_spaceship('1', '1', 'red', x=100, y=80, velocity=1)
+        ship2 = spaceship_factory.create_spaceship('2', '2', 'blue', x=300, y=80, velocity=5)
+        ship3 = spaceship_factory.create_spaceship('3', '3', 'yellow', x=100, y=250, velocity=10)
+        ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250, velocity=20)
         bullet1 = bullet_factory.create_bullet('1', 'red', x=120, y=40)
         bullet2 = bullet_factory.create_bullet('1', 'blue', x=300, y=40)
         bullet3 = bullet_factory.create_bullet('1', 'yellow', x=100, y=200)
@@ -30,7 +30,6 @@ class LevelFactory:
         return Storage(asteroids=asteroids, players=[player1, player2, player3, player4],
                        spacecrafts=[ship1, ship2, ship3, ship4],
                        bullets=[bullet1, bullet2, bullet3, bullet4])
-
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
         asteroids = []
         for _ in range(num_asteroids):
