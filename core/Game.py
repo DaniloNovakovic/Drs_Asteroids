@@ -1,7 +1,7 @@
 from core.Screen import Screen
 from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
-from core.MovementHandler import calculate_new_positions
+from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
 from PyQt5.QtCore import QThread, Qt, pyqtSignal
 import time
