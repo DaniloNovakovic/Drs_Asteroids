@@ -3,12 +3,7 @@ from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
-<<<<<<< Updated upstream
-=======
-from entities.Spaceship import Spaceship
 from PyQt5.QtCore import QThread, Qt, pyqtSignal
-import threading
->>>>>>> Stashed changes
 import time
 from datetime import datetime
 
@@ -25,13 +20,9 @@ class CounterThread(QThread):
 
 class Game:
     def __init__(self, screen: Screen, level_factory: LevelFactory, key_handler: KeyHandler,
-<<<<<<< Updated upstream
-                 movement_handler: MovementHandler, collision_handler: CollisionHandler):
-=======
                  collision_handler: CollisionHandler, movement_handler: MovementHandler):
         # TODO: playerID to be set by game server
         self.playerID = '1'
->>>>>>> Stashed changes
         self.screen = screen
         self.level_factory = level_factory
         self.key_handler = key_handler
@@ -43,11 +34,6 @@ class Game:
 
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
-        # TODO: set self.update to be called periodically (by detached thread in while loop or timer)
-<<<<<<< Updated upstream
-        self.update(elapsed_time=0)  # for testing purposes (until we render asteroid properly)
-        # self.update_loop(tick_frequency=30)
-=======
         self.update_thread.game_tick.connect(self.update)
         self.update_thread.start()
 
@@ -64,9 +50,6 @@ class Game:
         update_thread.join()
         """
 
->>>>>>> Stashed changes
-        pass
-
     def on_key_pressed(self, pressed_key):
         self.key_handler.handle(self.storage, pressed_key)
 
@@ -75,14 +58,9 @@ class Game:
             self.update(1000 / tick_frequency)
             time.sleep(1 / tick_frequency)
 
-<<<<<<< Updated upstream
-    def update(self, elapsed_time: float):
-        self.movement_handler.handle(storage=self.storage, elapsed_time=elapsed_time)
-=======
     def update(self, current_time: datetime):
         print('tick')
         # TODO: clear the screen before every update
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
->>>>>>> Stashed changes
         self.collision_handler.handle(storage=self.storage)
         self.screen.render_storage(storage=self.storage)
