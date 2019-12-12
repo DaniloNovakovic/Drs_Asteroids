@@ -1,19 +1,19 @@
 from random import randint
 from entities.Asteroid import Asteroid
 from core.utils.Enums import AsteroidSize
-from core.utils.image_helper import _get_full_image_path
+from core.utils.image_helper import get_full_image_path
 
 
 def create_asteroid(asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:
     if asteroid_type == 0:
         return Asteroid(x=x, y=y, velocity=velocity, angle=angle, r=35, points=200,
-                        img_abs_path=_get_full_image_path("small_asteroid.png"))
+                        img_abs_path=get_full_image_path("small_asteroid.png"))
     if asteroid_type == 1:
         return Asteroid(x=x, y=y, velocity=velocity, angle=angle, r=52, points=150,
-                        img_abs_path=_get_full_image_path("medium_asteroid.png"),
+                        img_abs_path=get_full_image_path("medium_asteroid.png"),
                         divide_asteroid=_divide_medium_asteroid)
     return Asteroid(x=x, y=y, velocity=velocity, angle=angle, r=75, points=100,
-                    img_abs_path=_get_full_image_path("large_asteroid.png"), divide_asteroid=_divide_large_asteroid)
+                    img_abs_path=get_full_image_path("large_asteroid.png"), divide_asteroid=_divide_large_asteroid)
 
 
 def _divide_medium_asteroid(asteroid: Asteroid) -> list:

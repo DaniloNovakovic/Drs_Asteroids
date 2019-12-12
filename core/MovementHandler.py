@@ -1,8 +1,6 @@
 from persistance.Storage import Storage
-from math import sin, cos, radians
-from entities import Asteroid, Bullet, Spaceship
 from datetime import datetime
-from core.utils.time_helper import _convert_timestamp_to_microseconds
+from core.utils.time_helper import convert_timestamp_to_microseconds
 
 
 class MovementHandler:
@@ -14,18 +12,15 @@ class MovementHandler:
         pass
 
     def calculate_new_positions(self, storage: Storage, current_time: datetime):
-        elapsed_time = (_convert_timestamp_to_microseconds(current_time) -
-                        _convert_timestamp_to_microseconds(self.last_time_recorded)) / self.reduction_factor
+        elapsed_time = (convert_timestamp_to_microseconds(current_time) -
+                        convert_timestamp_to_microseconds(self.last_time_recorded)) / self.reduction_factor
         self.last_time_recorded = current_time
 
         for asteroid in storage.get_all_asteroids():
-            asteroid.x = asteroid.x + cos(radians(asteroid.angle)) * asteroid.velocity * elapsed_time
-            asteroid.y = asteroid.y + sin(radians(asteroid.angle)) * asteroid.velocity * elapsed_time
+            asteroid.move(elapsed_time)
 
         for bullet in storage.get_all_bullets():
-            bullet.x = bullet.x + cos(radians(bullet.angle)) * bullet.velocity * elapsed_time
-            bullet.y = bullet.y + sin(radians(bullet.angle)) * bullet.velocity * elapsed_time
+            bullet.move(elapsed_time)
             
         for spacecraft in storage.get_all_spacecrafts():
-            spacecraft.x = spacecraft.x + cos(radians(spacecraft.angle)) * spacecraft.velocity * elapsed_time
-            spacecraft.y = spacecraft.y + sin(radians(spacecraft.angle)) * spacecraft.velocity * elapsed_time
+            spacecraft.move(elapsed_time)
