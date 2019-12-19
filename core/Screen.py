@@ -1,11 +1,5 @@
 from PyQt5 import QtCore
-from PyQt5.QtCore import QPoint, Qt
-from PyQt5.QtGui import QPainter, QImage, QPen
-from PyQt5.QtWidgets import QLineEdit, QWidget, QLabel
-from PyQt5.QtGui import QIcon, QPixmap
-
-from entities import Asteroid, Spaceship, Bullet
-from persistance.Storage import Storage
+from PyQt5.QtWidgets import QWidget
 
 
 class Screen(QWidget):
@@ -20,14 +14,3 @@ class Screen(QWidget):
     def keyPressEvent(self, event):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
-
-    def render_storage(self, storage: Storage):
-        # TODO: implement drawing with QPainter
-        for asteroid in storage.get_all_asteroids():
-            asteroid.draw(self)
-
-        for spaceship in storage.get_all_spacecrafts():
-            spaceship.draw(self)
-
-        for bullet in storage.get_all_bullets():
-            bullet.draw(self)
