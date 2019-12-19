@@ -1,6 +1,6 @@
-from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QImage, QTransform
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QLabel, QLayout
 
 from entities.MovableCircle import MovableCircle
 
@@ -25,6 +25,6 @@ class Asteroid(MovableCircle):
     def draw(self, screen: QWidget):
         if self.label is None:
             self.label = QLabel(screen)
-            self.label.setPixmap(QPixmap.fromImage(self.image))
+            self.label.setPixmap(QPixmap(self.image))
         self.label.move(self.x, self.y)
         self.label.show()

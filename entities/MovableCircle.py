@@ -20,13 +20,15 @@ class MovableCircle(MovableObject):
         self.y = self.y + sin(radians(self.angle)) * self.velocity * elapsed_time
 
     def accelerate(self):
-        self.velocity = self.velocity + 0.1
+        if self.velocity < 3:
+            self.velocity = self.velocity + 0.1
 
     def decelerate(self):
-        self.velocity = self.velocity - 0.1
+        if self.velocity > 0:
+            self.velocity = self.velocity - 0.1
 
     def rotate_left(self):
-        self.angle = self.angle + 0.4
+        self.angle = self.angle - 5
 
     def rotate_right(self):
-        self.angle = self.angle - 0.4
+        self.angle = self.angle + 5
