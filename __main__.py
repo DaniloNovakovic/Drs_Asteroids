@@ -8,6 +8,10 @@ from core.CollisionHandler import CollisionHandler
 from PyQt5.QtWidgets import QApplication
 from datetime import datetime
 
+from core.utils.asteroid_factory import AsteroidFactory
+from core.utils.bullet_factory import BulletFactory
+from core.utils.spaceship_factory import SpaceshipFactory
+
 
 class AsteroidsGame:
     def __init__(self):
@@ -17,8 +21,13 @@ class AsteroidsGame:
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
-        level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height)
-        key_handler = KeyHandler()
+        spaceship_factory = SpaceshipFactory(screen=self.screen)
+        asteroid_factory = AsteroidFactory(screen=self.screen)
+        level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height,
+                                     asteroid_factory=asteroid_factory,
+                                     spaceship_factory=spaceship_factory)
+        bullet_factory = BulletFactory(screen=self.screen)
+        key_handler = KeyHandler(bullet_factory=bullet_factory)
         movement_handler = MovementHandler(datetime.now())
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 

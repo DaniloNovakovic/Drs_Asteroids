@@ -3,7 +3,7 @@ from core.LevelFactory import LevelFactory
 from core.KeyHandler import KeyHandler
 from core.MovementHandler import MovementHandler
 from core.CollisionHandler import CollisionHandler
-from PyQt5.QtCore import QThread, Qt, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal
 import time
 from datetime import datetime
 
@@ -40,8 +40,5 @@ class Game:
         self.key_handler.handle(self.storage, pressed_key, self.playerID)
 
     def update(self, current_time: datetime):
-        print('tick')
-        # TODO: clear the screen before every update
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
         self.collision_handler.handle(storage=self.storage)
-        self.screen.render_storage(storage=self.storage)
