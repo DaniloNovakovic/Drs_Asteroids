@@ -1,7 +1,6 @@
-from persistance.Storage import Storage
-from PyQt5.QtWidgets import (QApplication, QWidget)
+from core.utils import bullet_factory
+from PyQt5.QtWidgets import (QWidget)
 from PyQt5.Qt import Qt
-from entities.Bullet import Bullet
 from persistance.Storage import Storage
 
 
@@ -20,6 +19,7 @@ class KeyHandler(QWidget):
         elif pressed_key == Qt.Key_Right:
             spaceship.rotate_right()
         elif pressed_key == Qt.Key_Space:
-            storage.add_bullet(Bullet())
+            storage.add_bullet(bullet_factory.create_bullet(player_id=player_id, color='red',
+                                                            x=spaceship.x, y=spaceship.y, angle=spaceship.angle))
         elif pressed_key == Qt.Key_Enter:
             self.update(300)

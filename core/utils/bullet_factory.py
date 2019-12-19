@@ -2,7 +2,7 @@ from entities.Bullet import Bullet
 from core.utils.image_helper import get_full_image_path
 
 
-def create_bullet(player_id: str, color: str, x: int = 0, y: int = 0, velocity: float = 0,
+def create_bullet(player_id: str, color: str, x: int = 0, y: int = 0, velocity: float = 5,
                   angle: float = 0, r: int = 5):
     if color == 'red':
         return Bullet(x=x, y=y, velocity=velocity, angle=angle, r=r, player_id=player_id, color=color,
