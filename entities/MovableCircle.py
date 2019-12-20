@@ -35,7 +35,7 @@ class MovableCircle(MovableObject):
         self._rotate_label()
 
     def _rotate_label(self):
-        self.label.setPixmap(rotate_pixmap(self.pixmap, self.angle))
+        self.label.setPixmap(rotate_pixmap(self.pixmap, self.angle + 90))
         self.label.update()
 
     def move(self, elapsed_time: float):

@@ -24,7 +24,7 @@ class MovableObject:
             self.velocity = self.velocity - 0.1
 
     def rotate_left(self):
-        self.angle = self.angle - 10
+        self.angle = (self.angle - 10) % 360
 
     def rotate_right(self):
-        self.angle = self.angle + 10
+        self.angle = (self.angle + 10) % 360
