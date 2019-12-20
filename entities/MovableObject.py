@@ -1,5 +1,8 @@
 from math import sin, cos, radians
 
+MIN_VELOCITY = 0
+MAX_VELOCITY = 3
+
 
 class MovableObject:
     def __init__(self, x: float = 0, y: float = 0, velocity: float = 0, angle: float = 0):
@@ -13,13 +16,15 @@ class MovableObject:
         self.y = self.y + sin(radians(self.angle)) * self.velocity * elapsed_time
 
     def accelerate(self):
-        self.velocity = self.velocity + 0.1
+        if self.velocity < MAX_VELOCITY:
+            self.velocity = self.velocity + 0.1
 
     def decelerate(self):
-        self.velocity = self.velocity - 0.1
+        if self.velocity > MIN_VELOCITY:
+            self.velocity = self.velocity - 0.1
 
     def rotate_left(self):
-        self.angle = self.angle - 10
+        self.angle = (self.angle - 10) % 360
 
     def rotate_right(self):
-        self.angle = self.angle + 10
+        self.angle = (self.angle + 10) % 360
