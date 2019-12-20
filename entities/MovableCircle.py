@@ -19,12 +19,12 @@ class MovableCircle(MovableObject):
         self.label.show()
 
     @property
-    def cx(self):
-        return self.x + self.r
+    def top_left_x(self):
+        return self.x - self.r
 
     @property
-    def cy(self):
-        return self.y + self.r
+    def top_left_y(self):
+        return self.y - self.r
 
     def rotate_left(self):
         super().rotate_left()
@@ -40,7 +40,7 @@ class MovableCircle(MovableObject):
 
     def move(self, elapsed_time: float):
         super().move(elapsed_time)
-        self.label.move(self.x, self.y)
+        self.label.move(self.top_left_x, self.top_left_y)
         self.label.update()
 
     def move_off_screen(self):
