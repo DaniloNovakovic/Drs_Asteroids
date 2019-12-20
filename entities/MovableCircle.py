@@ -1,6 +1,7 @@
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QWidget, QLabel
+from PyQt5.QtGui import QImage
+from PyQt5.QtWidgets import QWidget
 
+from core.utils.qt_utils import create_label, create_pixmap, rotate_pixmap
 from entities.MovableObject import MovableObject
 
 
@@ -12,13 +13,30 @@ class MovableCircle(MovableObject):
         self.img_abs_path = img_abs_path
         self.image = QImage(img_abs_path)
         self.screen = screen
-        self.label = self._create_label()
+        self.label = create_label(screen=screen, r=r)
+        self.pixmap = create_pixmap(label=self.label, image=self.image)
+        self._rotate_label()
         self.label.show()
 
-    def _create_label(self):
-        label = QLabel(self.screen)
-        label.setPixmap(QPixmap.fromImage(self.image))
-        return label
+    @property
+    def cx(self):
+        return self.x + self.r
+
+    @property
+    def cy(self):
+        return self.y + self.r
+
+    def rotate_left(self):
+        super().rotate_left()
+        self._rotate_label()
+
+    def rotate_right(self):
+        super().rotate_right()
+        self._rotate_label()
+
+    def _rotate_label(self):
+        self.label.setPixmap(rotate_pixmap(self.pixmap, self.angle))
+        self.label.update()
 
     def move(self, elapsed_time: float):
         super().move(elapsed_time)
@@ -26,10 +44,12 @@ class MovableCircle(MovableObject):
         self.label.update()
 
     def move_off_screen(self):
-        self.x = 0 - self.r - 100
-        self.y = 0 - self.r - 100
+        self.x = 0 - self.r * 2 - 100
+        self.y = 0 - self.r * 2 - 100
         self.label.hide()
 
     def is_off_screen(self, screen_width: int, screen_height: int):
         return (self.x + self.r) < 0 or (self.x - self.r) > screen_width or \
                (self.y + self.r) < 0 or (self.y - self.r) > screen_height
+
+

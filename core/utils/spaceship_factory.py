@@ -14,17 +14,17 @@ class SpaceshipFactory:
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id,
                              player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_red.png"))
+                             img_abs_path=get_full_image_path("spaceship_red_cropped.png"))
         elif color == 'green':
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_green.png"))
+                             img_abs_path=get_full_image_path("spaceship_green_cropped.png"))
         elif color == 'yellow':
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_yellow.png"))
+                             img_abs_path=get_full_image_path("spaceship_yellow_cropped.png"))
         else:
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_blue.png"))
+                             img_abs_path=get_full_image_path("spaceship_blue_cropped.png"))
 

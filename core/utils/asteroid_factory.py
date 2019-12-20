@@ -14,13 +14,13 @@ class AsteroidFactory:
     def create_asteroid(self, asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:
         if asteroid_type == AsteroidSize.small:
             return Asteroid(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=35, points=200,
-                            img_abs_path=get_full_image_path("small_asteroid.png"))
+                            img_abs_path=get_full_image_path("small_asteroid_cropped.png"))
         if asteroid_type == AsteroidSize.medium:
             return Asteroid(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=52, points=150,
-                            img_abs_path=get_full_image_path("medium_asteroid.png"),
+                            img_abs_path=get_full_image_path("medium_asteroid_cropped.png"),
                             divide_asteroid=self._divide_medium_asteroid)
         return Asteroid(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=75, points=100,
-                        img_abs_path=get_full_image_path("large_asteroid.png"),
+                        img_abs_path=get_full_image_path("large_asteroid_cropped.png"),
                         divide_asteroid=self._divide_large_asteroid)
 
     def _divide_medium_asteroid(self, asteroid: Asteroid) -> list:
