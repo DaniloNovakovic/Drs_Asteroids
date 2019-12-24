@@ -34,15 +34,16 @@ class LevelFactory:
 
     def _create_new_players(self) -> list:
         player1 = Player(player_id='1', spaceship_id='1')
-        player2 = Player('2', '2')
+        player2 = Player(player_id='2', spaceship_id='2')
         player3 = Player('3', '3')
         player4 = Player('4', '4')
         return [player1, player2, player3, player4]
 
     def _create_new_spaceships(self):
-        ship1 = self.spaceship_factory.create_spaceship('1', '1', 'red',
-                                                        x=self.screen_width / 2, y=self.screen_height / 2, angle=-180)
-        # ship2 = spaceship_factory.create_spaceship('2', '2', 'blue', x=300, y=80, velocity=5)
-        # ship3 = spaceship_factory.create_spaceship('3', '3', 'yellow', x=100, y=250, velocity=10)
+        ship1 = self.spaceship_factory.create_spaceship('1', '1', 'red', x=(self.screen_width / 2 - 50),
+                                                        y=(self.screen_height / 2), angle=-180)
+        ship2 = self.spaceship_factory.create_spaceship('2', '2', 'yellow', x=(self.screen_width / 2 + 50),
+                                                        y=(self.screen_height / 2), angle=-180)
+        # ship3 = spaceship_factory.create_spaceship('3', '3', 'blue', x=100, y=250, velocity=10)
         # ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250, velocity=20)
-        return [ship1]
+        return [ship1, ship2]

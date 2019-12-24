@@ -23,6 +23,7 @@ class Game:
                  collision_handler: CollisionHandler, movement_handler: MovementHandler):
         # TODO: playerID to be set by game server
         self.playerID = '1'
+        self.playerID2 = '2'
         self.screen = screen
         self.level_factory = level_factory
         self.key_handler = key_handler
@@ -37,7 +38,7 @@ class Game:
         self.update_thread.start()
 
     def on_key_pressed(self, pressed_key):
-        self.key_handler.handle(self.storage, pressed_key, self.playerID)
+        self.key_handler.handle(self.storage, pressed_key, self.playerID, self.playerID2)
 
     def update(self, current_time: datetime):
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
