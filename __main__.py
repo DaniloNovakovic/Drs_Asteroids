@@ -31,7 +31,7 @@ class AsteroidsGame:
                                       spaceship_factory=spaceship_factory)
         bullet_factory = BulletFactory(screen=self.screen)
         key_handler = KeyHandler(bullet_factory=bullet_factory)
-        movement_handler = MovementHandler(datetime.now())
+        movement_handler = MovementHandler(datetime.now(),screen_width,screen_height)
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
