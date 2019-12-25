@@ -11,6 +11,7 @@ class CollisionHandler:
         self._handle_spacecraft_with_asteroid_collision(storage)
         self._handle_bullets_with_asteroid_collision(storage)
         self._remove_off_screen_elements(storage)
+        self._hide_screen_elements(storage)
 
     @staticmethod
     def _handle_spacecraft_with_asteroid_collision(storage: Storage):
@@ -26,7 +27,6 @@ class CollisionHandler:
                 player.remove_life()
                 if player.is_dead():
                     spacecraft.move_off_screen()
-                    break
 
     @staticmethod
     def _handle_bullets_with_asteroid_collision(storage: Storage):
@@ -45,15 +45,20 @@ class CollisionHandler:
                 divided_asteroids = asteroid.divide()
                 new_asteroids.extend(divided_asteroids)
 
-                bullet.move_off_screen()
-                asteroid.move_off_screen()
+                bullet.destroy()
+                asteroid.destroy()
         storage.asteroids.extend(new_asteroids)
 
     def _remove_off_screen_elements(self, storage: Storage):
         """Removes elements that are completely outside of screen from storage"""
-        storage.asteroids = self._filter_out_off_screen_elements(storage.asteroids)
-        storage.bullets = self._filter_out_off_screen_elements(storage.bullets)
         storage.spacecrafts = self._filter_out_off_screen_elements(storage.spacecrafts)
+
+    def _hide_screen_elements(self, storage: Storage):
+        storage.asteroids = self._filter_out_hidden_elements(storage.asteroids)
+        storage.bullets = self._filter_out_hidden_elements(storage.bullets)
 
     def _filter_out_off_screen_elements(self, elements: list) -> list:
         return list(filter(lambda circle: not circle.is_off_screen(self.screen_width, self.screen_height), elements))
+
+    def _filter_out_hidden_elements(self, elements: list) -> list:
+        return list(filter(lambda circle: not circle.is_hidden(), elements))

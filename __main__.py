@@ -26,6 +26,9 @@ class AsteroidsGame:
         level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height,
                                      asteroid_factory=asteroid_factory,
                                      spaceship_factory=spaceship_factory)
+        level_factory2 = LevelFactory(screen_width=screen_width, screen_height=screen_height,
+                                      asteroid_factory=asteroid_factory,
+                                      spaceship_factory=spaceship_factory)
         bullet_factory = BulletFactory(screen=self.screen)
         key_handler = KeyHandler(bullet_factory=bullet_factory)
         movement_handler = MovementHandler(datetime.now())

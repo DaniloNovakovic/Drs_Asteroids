@@ -38,7 +38,7 @@ class Game:
         self.update_thread.start()
 
     def on_key_pressed(self, pressed_key):
-        self.key_handler.handle(self.storage, pressed_key, self.playerID, self.playerID2)
+        self.key_handler.handle(self.storage, pressed_key)
 
     def update(self, current_time: datetime):
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)

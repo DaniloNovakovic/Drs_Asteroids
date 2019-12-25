@@ -37,6 +37,19 @@ class Storage:
                 return spaceship
         raise Exception(f"Spaceship with player id {player_id} not found!")
 
+    def get_spaceship_by_player(self, player) -> Spaceship:
+        player_id=player.player_id
+        for spaceship in self.spacecrafts:
+            if spaceship.player_id == player_id:
+                return spaceship
+        raise Exception(f"Spaceship with player id {player_id} not found!")
+
+    def get_player_by_spaceship(self, spaceship: Spaceship) -> Player:
+        for player in self.players:
+            if player.spaceship_id == spaceship.spaceship_id:
+                return player
+        raise Exception(f"Player with spaceship{spaceship.spaceship_id} not found!")
+
     '''Object generators'''
 
     def add_bullet(self, bullet: Bullet):

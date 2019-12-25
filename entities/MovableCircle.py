@@ -52,4 +52,8 @@ class MovableCircle(MovableObject):
         return (self.x + self.r) < 0 or (self.x - self.r) > screen_width or \
                (self.y + self.r) < 0 or (self.y - self.r) > screen_height
 
+    def destroy(self):
+        self.label.hide()
 
+    def is_hidden(self):
+        return self.label.isHidden()

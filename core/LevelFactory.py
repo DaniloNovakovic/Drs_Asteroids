@@ -4,6 +4,8 @@ from core.utils.spaceship_factory import SpaceshipFactory
 from core.utils.asteroid_factory import AsteroidFactory
 from entities.Player import Player
 from persistance.Storage import Storage
+from entities.PlayerConfig import PlayerConfig
+from PyQt5.Qt import Qt
 
 
 class LevelFactory:
@@ -14,7 +16,7 @@ class LevelFactory:
         self.asteroid_factory = asteroid_factory
         self.spaceship_factory = spaceship_factory
 
-    def create_new(self, level_number: int = 0) -> Storage:
+    def create_new(self, level_number: int = 0, storage: Storage = None) -> Storage:
         asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
         players = self._create_new_players()
         spaceships = self._create_new_spaceships()
@@ -32,12 +34,37 @@ class LevelFactory:
             asteroids.append(asteroid)
         return asteroids
 
+    def _create_new_asteroids2(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(1,3):
+            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
+            #  from the outside of screen towards center
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.1
+            asteroids.append(asteroid)
+        for _ in range(3, 6):
+            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
+            #  from the outside of screen towards center
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = self.screen_width
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.1
+            asteroid.angle = 180
+            asteroids.append(asteroid)
+
+        return asteroids
+
     def _create_new_players(self) -> list:
-        player1 = Player(player_id='1', spaceship_id='1')
-        player2 = Player(player_id='2', spaceship_id='2')
-        player3 = Player('3', '3')
-        player4 = Player('4', '4')
-        return [player1, player2, player3, player4]
+        player1_config = PlayerConfig()
+        player1 = Player(player_id='1', spaceship_id='1', player_config=player1_config)
+        player2_config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
+                                      , key_up=Qt.Key_W, key_shoot=Qt.Key_Control)
+        player2 = Player(player_id='2', spaceship_id='2', player_config=player2_config)
+        #player3 = Player('3', '3')
+        #player4 = Player('4', '4')
+        return [player1, player2]
 
     def _create_new_spaceships(self):
         ship1 = self.spaceship_factory.create_spaceship('1', '1', 'red', x=(self.screen_width / 2 - 50),
