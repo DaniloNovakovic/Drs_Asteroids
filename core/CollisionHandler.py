@@ -19,6 +19,8 @@ class CollisionHandler:
         Removes life of the player if his spacecraft has hit the asteroid.
         If player has no lives left then spacecraft will be removed from screen
         """
+        player1 = storage.players[0]
+        player2 = storage.players[1]
         for spacecraft in storage.spacecrafts:
             for asteroid in storage.asteroids:
                 if not are_circles_collided(spacecraft, asteroid):
@@ -27,6 +29,8 @@ class CollisionHandler:
                 player.remove_life()
                 if player.is_dead():
                     spacecraft.move_off_screen()
+                    if player1.is_dead() and player2.is_dead():
+                        exit()
 
     @staticmethod
     def _handle_bullets_with_asteroid_collision(storage: Storage):
