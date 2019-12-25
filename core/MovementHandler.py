@@ -4,8 +4,10 @@ from core.utils.time_helper import convert_timestamp_to_microseconds
 
 
 class MovementHandler:
-    def __init__(self, timestamp: datetime):
+    def __init__(self, timestamp: datetime, screen_width, screen_height):
         self.last_time_recorded = timestamp
+        self.screen_width = screen_width
+        self.screen_height = screen_height
         # prodje oko 100.000 usec izmedju poziva funkcije pa se redukuje ovde da bi objekti mogli nomalno
         # da se krecu
         self.reduction_factor = 10000
@@ -18,9 +20,22 @@ class MovementHandler:
 
         for asteroid in storage.get_all_asteroids():
             asteroid.move(elapsed_time)
+            self._clip(asteroid)
 
         for bullet in storage.get_all_bullets():
             bullet.move(elapsed_time)
-            
+
         for spacecraft in storage.get_all_spacecrafts():
             spacecraft.move(elapsed_time)
+            self._clip(spacecraft)
+
+    def _clip(self, circle):
+        if circle.x < 0:
+            circle.x = self.screen_width + circle.x
+        elif circle.x > self.screen_width:
+            circle.x = circle.x - self.screen_width
+
+        if circle.y < 0:
+            circle.y = self.screen_height + circle.y
+        elif circle.y > self.screen_height:
+            circle.y = circle.y - self.screen_height
