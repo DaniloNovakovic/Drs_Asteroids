@@ -22,6 +22,12 @@ class LevelFactory:
         spaceships = self._create_new_spaceships()
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
 
+    def create_new2(self, level_number: int = 0, storage: Storage = None) -> Storage:
+        asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
+        players = self._create_new_players()
+        spaceships = self._create_new_spaceships()
+        return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
+
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
         asteroids = []
         for _ in range(num_asteroids):
@@ -53,7 +59,6 @@ class LevelFactory:
             asteroid.velocity = 0.1
             asteroid.angle = 180
             asteroids.append(asteroid)
-
         return asteroids
 
     def _create_new_players(self) -> list:
