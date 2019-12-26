@@ -16,50 +16,32 @@ class LevelFactory:
         self.asteroid_factory = asteroid_factory
         self.spaceship_factory = spaceship_factory
 
-    def create_new(self, level_number: int = 0, storage: Storage = None) -> Storage:
-        asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
-        players = self._create_new_players()
-        spaceships = self._create_new_spaceships()
-        return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
-
-    def create_new2(self, level_number: int = 0, storage: Storage = None) -> Storage:
-        asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
-        players = self._create_new_players()
-        spaceships = self._create_new_spaceships()
-        return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
-
-    def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
-        asteroids = []
-        for _ in range(num_asteroids):
-            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
-            #  from the outside of screen towards center
-            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
-            asteroid.x = 0 # randint(asteroid.r, self.screen_width - asteroid.r)
-            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
-            asteroid.velocity = 0.1
-            asteroids.append(asteroid)
-        return asteroids
-
-    def _create_new_asteroids2(self, num_asteroids: int = 1) -> list:
-        asteroids = []
-        for _ in range(1,3):
-            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
-            #  from the outside of screen towards center
-            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
-            asteroid.x = 0
-            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
-            asteroid.velocity = 0.1
-            asteroids.append(asteroid)
-        for _ in range(3, 6):
-            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
-            #  from the outside of screen towards center
-            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
-            asteroid.x = self.screen_width
-            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
-            asteroid.velocity = 0.1
-            asteroid.angle = 180
-            asteroids.append(asteroid)
-        return asteroids
+    def create_new(self, level_number: int = 1, storage: Storage = None) -> Storage:
+        if level_number == 1:
+            asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
+            players = self._create_new_players()
+            spaceships = self._create_new_spaceships()
+            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
+        elif level_number == 2:
+            asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
+            players = self._create_new_players()
+            spaceships = self._create_new_spaceships()
+            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
+        elif level_number == 3:
+            asteroids = self._create_new_asteroids3(num_asteroids=level_number + 6)
+            players = self._create_new_players()
+            spaceships = self._create_new_spaceships()
+            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
+        elif level_number == 4:
+            asteroids = self._create_new_asteroids4(num_asteroids=level_number + 8)
+            players = self._create_new_players()
+            spaceships = self._create_new_spaceships()
+            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
+        elif level_number == 5:
+            asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
+            players = self._create_new_players()
+            spaceships = self._create_new_spaceships()
+            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships)
 
     def _create_new_players(self) -> list:
         player1_config = PlayerConfig()
@@ -67,8 +49,8 @@ class LevelFactory:
         player2_config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control)
         player2 = Player(player_id='2', spaceship_id='2', player_config=player2_config)
-        #player3 = Player('3', '3')
-        #player4 = Player('4', '4')
+        # player3 = Player('3', '3')
+        # player4 = Player('4', '4')
         return [player1, player2]
 
     def _create_new_spaceships(self):
@@ -79,3 +61,118 @@ class LevelFactory:
         # ship3 = spaceship_factory.create_spaceship('3', '3', 'blue', x=100, y=250, velocity=10)
         # ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250, velocity=20)
         return [ship1, ship2]
+
+    def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(num_asteroids):
+            # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
+            #  from the outside of screen towards center
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0  # randint(asteroid.r, self.screen_width - asteroid.r)
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.1
+            asteroids.append(asteroid)
+        return asteroids
+
+    def _create_new_asteroids2(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(0, 4):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.15
+            asteroids.append(asteroid)
+        for _ in range(4, 8):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = self.screen_width
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.15
+            asteroid.angle = 180
+            asteroids.append(asteroid)
+        return asteroids
+
+    def _create_new_asteroids3(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(0, 3):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.2
+            asteroids.append(asteroid)
+        for _ in range(3, 6):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = self.screen_width
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.2
+            asteroid.angle = 180
+            asteroids.append(asteroid)
+        for i in range(6, 9):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = ((self.screen_width / 2) - 100) + (i * 150)
+            asteroid.y = 0
+            asteroid.velocity = 0.2
+            asteroid.angle = 90
+            asteroids.append(asteroid)
+        return asteroids
+
+    def _create_new_asteroids4(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(0, 3):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.25
+            asteroids.append(asteroid)
+        for _ in range(3, 6):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = self.screen_width
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.25
+            asteroid.angle = 180
+            asteroids.append(asteroid)
+        for i in range(6, 9):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = ((self.screen_width / 2) - 100) + (i * 150)
+            asteroid.y = 0
+            asteroid.velocity = 0.25
+            asteroid.angle = 90
+            asteroids.append(asteroid)
+        for i in range(9, 12):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = ((self.screen_width / 2) - 500) + (i * 150)
+            asteroid.y = 0
+            asteroid.velocity = 0.25
+            asteroid.angle = 270
+            asteroids.append(asteroid)
+        return asteroids
+
+    def _create_new_asteroids5(self, num_asteroids: int = 1) -> list:
+        asteroids = []
+        for _ in range(0, 3):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = 0
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.3
+            asteroids.append(asteroid)
+        for _ in range(3, 6):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = self.screen_width
+            asteroid.y = randint(asteroid.r, self.screen_height - asteroid.r)
+            asteroid.velocity = 0.3
+            asteroid.angle = 180
+            asteroids.append(asteroid)
+        for i in range(6, 9):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = ((self.screen_width / 2) - 100) + (i * 150)
+            asteroid.y = 0
+            asteroid.velocity = 0.3
+            asteroid.angle = 90
+            asteroids.append(asteroid)
+        for i in range(9, 12):
+            asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
+            asteroid.x = ((self.screen_width / 2) - 500) + (i * 150)
+            asteroid.y = 0
+            asteroid.velocity = 0.3
+            asteroid.angle = 270
+            asteroids.append(asteroid)
+        return asteroids

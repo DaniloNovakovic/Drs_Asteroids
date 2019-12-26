@@ -26,10 +26,10 @@ class Game:
         self.playerID2 = '2'
         self.screen = screen
         self.level_factory = level_factory
-        self.level2_factory = level_factory
         self.key_handler = key_handler
         self.collision_handler = collision_handler
-        self.storage = level_factory.create_new()
+        self.game_level = 1
+        self.storage = level_factory.create_new(self.game_level)
         self.movement_handler = movement_handler
         self.update_thread = CounterThread()
 
@@ -44,14 +44,15 @@ class Game:
     def update(self, current_time: datetime):
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
         self.collision_handler.handle(storage=self.storage)
-        self.new_level()
+        self.new_level(self.game_level)
 
-    def new_level(self):
+    def new_level(self, game_level):
         if len(self.storage.asteroids) == 0:
+            self.game_level = game_level + 1
             for spacecraft in self.storage.spacecrafts:
                 spacecraft.label.hide()
             for bullet in self.storage.bullets:
                 bullet.label.hide()
             self.storage.spacecrafts.clear()
             self.storage.bullets.clear()
-            self.storage = self.level_factory.create_new2()
+            self.storage = self.level_factory.create_new(self.game_level)
