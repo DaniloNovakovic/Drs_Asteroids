@@ -1,12 +1,13 @@
-from entities import Asteroid, Bullet, Player, Spaceship
+from entities import Asteroid, Bullet, Player, Spaceship, Heart
 
 
 class Storage:
-    def __init__(self, asteroids=(), players=(), spacecrafts=(), bullets=()):
+    def __init__(self, asteroids=(), players=(), spacecrafts=(), bullets=(), hearts=()):
         self.asteroids = list(asteroids)
         self.players = list(players)
         self.spacecrafts = list(spacecrafts)
         self.bullets = list(bullets)
+        self.hearts = list(hearts)
 
     '''Getters for all objects on screen'''
 
@@ -18,6 +19,9 @@ class Storage:
 
     def get_all_bullets(self):
         return self.bullets
+
+    def get_all_hearts(self):
+        return self.hearts
 
     '''Getters for single objects on screen'''
 
@@ -38,7 +42,7 @@ class Storage:
         raise Exception(f"Spaceship with player id {player_id} not found!")
 
     def get_spaceship_by_player(self, player) -> Spaceship:
-        player_id=player.player_id
+        player_id = player.player_id
         for spaceship in self.spacecrafts:
             if spaceship.player_id == player_id:
                 return spaceship
@@ -60,3 +64,6 @@ class Storage:
 
     def add_spaceship(self, spaceship: Spaceship):
         self.spacecrafts.append(spaceship)
+
+    def add_heart(self, heart: Heart):
+        self.hearts.append(heart)

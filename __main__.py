@@ -11,7 +11,7 @@ from datetime import datetime
 from core.utils.asteroid_factory import AsteroidFactory
 from core.utils.bullet_factory import BulletFactory
 from core.utils.spaceship_factory import SpaceshipFactory
-
+from core.utils.heart_factory import HeartFactory
 
 class AsteroidsGame:
     def __init__(self):
@@ -23,15 +23,14 @@ class AsteroidsGame:
 
         spaceship_factory = SpaceshipFactory(screen=self.screen)
         asteroid_factory = AsteroidFactory(screen=self.screen)
+        hearts_factory = HeartFactory(screen=self.screen)
         level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height,
                                      asteroid_factory=asteroid_factory,
-                                     spaceship_factory=spaceship_factory)
-        level_factory2 = LevelFactory(screen_width=screen_width, screen_height=screen_height,
-                                      asteroid_factory=asteroid_factory,
-                                      spaceship_factory=spaceship_factory)
+                                     spaceship_factory=spaceship_factory,
+                                     heart_factory=hearts_factory)
         bullet_factory = BulletFactory(screen=self.screen)
         key_handler = KeyHandler(bullet_factory=bullet_factory)
-        movement_handler = MovementHandler(datetime.now(),screen_width,screen_height)
+        movement_handler = MovementHandler(datetime.now(), screen_width, screen_height)
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
