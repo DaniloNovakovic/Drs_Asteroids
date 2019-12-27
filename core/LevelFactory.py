@@ -25,13 +25,13 @@ class LevelFactory:
             asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
             players = self._create_new_players()
             spaceships = self._create_new_spaceships()
-            hearts = self._create_new_hearts()
+            hearts = hearts = self._create_new_hearts()
             return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 2:
             asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
             players = self._create_new_players()
             spaceships = self._create_new_spaceships()
-            hearts = self._create_new_hearts()
+            hearts = hearts = self._create_new_hearts()
             return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 3:
             asteroids = self._create_new_asteroids3(num_asteroids=level_number + 6)
@@ -43,13 +43,13 @@ class LevelFactory:
             asteroids = self._create_new_asteroids4(num_asteroids=level_number + 8)
             players = self._create_new_players()
             spaceships = self._create_new_spaceships()
-            hearts = self._create_new_hearts()
+            hearts = hearts = self._create_new_hearts()
             return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 5:
             asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
             players = self._create_new_players()
             spaceships = self._create_new_spaceships()
-            hearts = self._create_new_hearts()
+            hearts = hearts = self._create_new_hearts()
             return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
 
     def _create_new_players(self) -> list:
@@ -72,8 +72,8 @@ class LevelFactory:
         return [ship1, ship2]
 
     def _create_new_hearts(self): #srca koja mogu da se pokupe
-        heart1 = self.heart_factory.create_heart('1', x=15, y=self.screen_height-15)
-        heart2 = self.heart_factory.create_heart('2', x=(self.screen_width-50), y=self.screen_height-15)
+        heart1 = self.heart_factory.create_heart('1', x=150, y=150)
+        heart2 = self.heart_factory.create_heart('2', x=300, y=300)
         return [heart1, heart2]
 
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:

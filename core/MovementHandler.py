@@ -29,6 +29,10 @@ class MovementHandler:
             spacecraft.move(elapsed_time)
             self._clip(spacecraft)
 
+        for heart in storage.get_all_hearts():
+            heart.move(elapsed_time)
+            self._clip(heart)
+
     def _clip(self, circle):
         if circle.x < 0:
             circle.x = self.screen_width + circle.x

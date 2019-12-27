@@ -10,6 +10,7 @@ class CollisionHandler:
     def handle(self, storage: Storage):
         self._handle_spacecraft_with_asteroid_collision(storage)
         self._handle_bullets_with_asteroid_collision(storage)
+        self._handle_spacecraft_with_heat_collision(storage)
         self._remove_off_screen_elements(storage)
         self._hide_screen_elements(storage)
 
@@ -31,6 +32,20 @@ class CollisionHandler:
                     spacecraft.move_off_screen()
                     if player1.is_dead() and player2.is_dead():
                         exit()
+
+    @staticmethod
+    def _handle_spacecraft_with_heat_collision(storage: Storage):
+        """
+        Removes life of the player if his spacecraft has hit the asteroid.
+        If player has no lives left then spacecraft will be removed from screen
+        """
+        for spacecraft in storage.spacecrafts:
+            for heart in storage.hearts:
+                if not are_circles_collided(spacecraft, heart):
+                    continue
+                player = storage.get_player_by_id(spacecraft.player_id)
+                player.add_life()
+                heart.move_off_screen()
 
     @staticmethod
     def _handle_bullets_with_asteroid_collision(storage: Storage):
