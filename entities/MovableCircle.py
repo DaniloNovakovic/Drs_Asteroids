@@ -17,6 +17,7 @@ class MovableCircle(MovableObject):
         self.pixmap = create_pixmap(label=self.label, image=self.image)
         self._rotate_label()
         self.label.show()
+        self.move(0)
 
     @property
     def top_left_x(self):

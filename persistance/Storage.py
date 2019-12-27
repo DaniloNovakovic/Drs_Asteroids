@@ -7,7 +7,7 @@ class Storage:
         self.players = list(players)
         self.spacecrafts = list(spacecrafts)
         self.bullets = list(bullets)
-        self.hearts = list(hearts)
+        self.hearts = list(hearts) #srca koje igrac moze da pokupi
 
     '''Getters for all objects on screen'''
 

@@ -6,17 +6,19 @@ from core.utils.asteroid_factory import AsteroidFactory
 from entities.Player import Player
 from persistance.Storage import Storage
 from entities.PlayerConfig import PlayerConfig
+from core.utils.player_factory import PlayerFactory
 from PyQt5.Qt import Qt
 
 
 class LevelFactory:
     def __init__(self, screen_width, screen_height, asteroid_factory: AsteroidFactory,
-                 spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory):
+                 spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory, player_factory: PlayerFactory):
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.asteroid_factory = asteroid_factory
         self.spaceship_factory = spaceship_factory
         self.heart_factory = heart_factory
+        self.player_factory = player_factory
 
     def create_new(self, level_number: int = 1, storage: Storage = None) -> Storage:
         if level_number == 1:
@@ -52,10 +54,10 @@ class LevelFactory:
 
     def _create_new_players(self) -> list:
         player1_config = PlayerConfig()
-        player1 = Player(player_id='1', spaceship_id='1', player_config=player1_config)
+        player1 = self.player_factory.create_player(player_id='1', spaceship_id='1', player_config=player1_config)
         player2_config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control)
-        player2 = Player(player_id='2', spaceship_id='2', player_config=player2_config)
+        player2 = self.player_factory.create_player(player_id='2', spaceship_id='2', player_config=player2_config)
         # player3 = Player('3', '3')
         # player4 = Player('4', '4')
         return [player1, player2]
@@ -69,9 +71,9 @@ class LevelFactory:
         # ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250, velocity=20)
         return [ship1, ship2]
 
-    def _create_new_hearts(self):
-        heart1 = self.heart_factory.create_heart('1', x=0, y=self.screen_height)
-        heart2 = self.heart_factory.create_heart('2', x=(self.screen_width-50), y=self.screen_height)
+    def _create_new_hearts(self): #srca koja mogu da se pokupe
+        heart1 = self.heart_factory.create_heart('1', x=15, y=self.screen_height-15)
+        heart2 = self.heart_factory.create_heart('2', x=(self.screen_width-50), y=self.screen_height-15)
         return [heart1, heart2]
 
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
