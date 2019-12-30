@@ -19,14 +19,17 @@ class MyWindow(QMainWindow):
         self.b1 = QtWidgets.QPushButton(self)
         self.b1.setText("START GAME")
         self.b1.setGeometry(400, 200, 250, 50)
+        self.b1.setStyleSheet("border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
         self.b2 = QtWidgets.QPushButton(self)
         self.b2.setText("SCORE")
         self.b2.setGeometry(400, 300, 250, 50)
+        self.b2.setStyleSheet("border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
         self.b3 = QtWidgets.QPushButton(self)
         self.b3.setText("EXIT")
         self.b3.setGeometry(400, 400, 250, 50)
+        self.b3.setStyleSheet("border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
 def window():
     app = QApplication(sys.argv)
