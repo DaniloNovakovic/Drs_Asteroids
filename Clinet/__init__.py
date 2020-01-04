@@ -1,7 +1,9 @@
+import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow
-import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
+
+
 
 
 class MyWindow(QMainWindow):
@@ -12,14 +14,20 @@ class MyWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.backGround()
-        self.buttons()
+        self.initWindow()
+        self.Buttons()
 
-    def buttons(self):
+    def Buttons(self):
         self.b1 = QtWidgets.QPushButton(self)
         self.b1.setText("START GAME")
-        self.b1.setGeometry(400, 200, 250, 50)
+        self.b1.setGeometry(400, 100, 250, 50)
         self.b1.setStyleSheet(
+            "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
+
+        self.b2 = QtWidgets.QPushButton(self)
+        self.b2.setText("MULITPLAYER")
+        self.b2.setGeometry(400, 200, 250, 50)
+        self.b2.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
         self.b2 = QtWidgets.QPushButton(self)
@@ -35,7 +43,7 @@ class MyWindow(QMainWindow):
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
         self.b3.clicked.connect(self.quit)
 
-    def backGround(self):
+    def initWindow(self):
         self.BackGround = QPixmap("galaxy.jpg")
         self.BackGroundLabel = QtWidgets.QLabel(self)
         self.BackGroundLabel.setPixmap(self.BackGround)
