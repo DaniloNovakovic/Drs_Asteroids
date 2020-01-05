@@ -1,7 +1,7 @@
 from datetime import datetime
 import sys
 
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from core.CollisionHandler import CollisionHandler
 from core.Game import Game
 from core.KeyHandler import KeyHandler
@@ -16,9 +16,7 @@ from core.utils.spaceship_factory import SpaceshipFactory
 
 
 class AsteroidsGame:
-    def __init__(self):
-        screen_width = 1000
-        screen_height = 600
+    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600):
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''

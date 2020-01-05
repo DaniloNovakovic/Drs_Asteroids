@@ -1,16 +1,16 @@
-from PyQt5 import QtCore,QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMainWindow
 
 from core.utils.image_helper import get_full_image_path
 
 
-class Screen(QWidget):
+class Screen(QMainWindow):
     keyPressed = QtCore.pyqtSignal(int)
 
-    def __init__(self, x: int, y: int, name: str,img_abs_path: str = ""):
+    def __init__(self, screen_width: int = 1000, screen_height: int = 600, name: str = "Asteroids"):
         super().__init__()
-        self.resize(x, y)
+        self.resize(screen_width, screen_height)
 
         # self.setGeometry(200, 200, 200 + x, 200 + y)
         self.setWindowTitle(name)
@@ -23,4 +23,3 @@ class Screen(QWidget):
     def keyPressEvent(self, event):
         super().keyPressEvent(event)
         self.keyPressed.emit(event.key())
-
