@@ -44,7 +44,6 @@ class SinglePlayerWindow(QMainWindow):
         self.choseShipLabel.setStyleSheet(" color: white;font-size: 26px; font-family: Arial Black;");
 
         self.player1Cb = QComboBox(self)
-        # self.player1Cb.setCursor(Qt.PointingHandCursor)
         self.player1Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
         self.player1Cb.addItem("")
         self.player1Cb.addItem("red")

@@ -1,8 +1,12 @@
-from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 import sys
+
+from PyQt5 import QtWidgets
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox
+
+from AsteroidsGame import AsteroidsGame
 from core.utils.image_helper import get_full_image_path
+from entities.PlayerInput import PlayerInput
 
 
 class MultiPlayerWindow(QMainWindow):
@@ -31,10 +35,10 @@ class MultiPlayerWindow(QMainWindow):
         self.lbl2.setGeometry(200, 150, 200, 50)
         self.lbl2.setStyleSheet(" color: white;font-size: 26px; font-family: Arial Black;");
 
-        qle = QLineEdit(self)
-        qle.setGeometry(200, 200, 200, 50)
-        qle2 = QLineEdit(self)
-        qle2.setGeometry(200, 300, 200, 50)
+        self.player1NameLineEdit = QLineEdit(self)
+        self.player1NameLineEdit.setGeometry(200, 200, 200, 50)
+        self.player2NameLineEdit = QLineEdit(self)
+        self.player2NameLineEdit.setGeometry(200, 300, 200, 50)
 
     def chooseShip(self):
         self.lbl2 = QLabel(self)
@@ -43,7 +47,6 @@ class MultiPlayerWindow(QMainWindow):
         self.lbl2.setStyleSheet(" color: white;font-size: 26px; font-family: Arial Black;");
 
         self.player1Cb = QComboBox(self)
-        # self.player1Cb.setCursor(Qt.PointingHandCursor)
         self.player1Cb.setStyleSheet(
             "border:1px solid rgb(220, 20, 60);font-size: 20px; color: red; font-family: Helvetica;");
         self.player1Cb.addItem("")
@@ -55,14 +58,13 @@ class MultiPlayerWindow(QMainWindow):
         self.player1Cb.setGeometry(410, 200, 200, 50)
 
         self.player2Cb = QComboBox(self)
-        # self.player1Cb.setCursor(Qt.PointingHandCursor)
         self.player2Cb.setStyleSheet(
             "border:1px solid rgb(220, 20, 60);font-size: 20px; color: red; font-family: Helvetica;");
         self.player2Cb.addItem("")
-        self.player1Cb.addItem("red")
-        self.player1Cb.addItem("green")
-        self.player1Cb.addItem("yellow")
-        self.player1Cb.addItem("blue")
+        self.player2Cb.addItem("red")
+        self.player2Cb.addItem("green")
+        self.player2Cb.addItem("yellow")
+        self.player2Cb.addItem("blue")
         self.player2Cb.model().item(0).setEnabled(False)
         self.player2Cb.setGeometry(410, 300, 200, 50)
 
@@ -78,12 +80,19 @@ class MultiPlayerWindow(QMainWindow):
         self.lbl4.setStyleSheet(" color: red;font-size: 20px; font-family: Arial ;");
 
     def buttonPlay(self):
-        self.b1 = QtWidgets.QPushButton(self)
-        self.b1.setText("PLAY")
-        self.b1.setGeometry(750, 400, 200, 50)
-        self.b1.setStyleSheet(
+        self.playButton = QtWidgets.QPushButton(self)
+        self.playButton.setText("PLAY")
+        self.playButton.setGeometry(750, 400, 200, 50)
+        self.playButton.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
+        self.playButton.clicked.connect(self.onPlayButtonClicked)
 
+    def onPlayButtonClicked(self):
+        player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+        player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
+
+        self.game = AsteroidsGame(player_inputs=[player1_input, player2_input])
+        self.game.start()
 
 def wi():
     app = QApplication(sys.argv)
