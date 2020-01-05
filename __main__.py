@@ -1,4 +1,8 @@
 import sys
+
+from PyQt5.QtGui import QPixmap
+from PyQt5 import QtWidgets
+
 from core.Game import Game
 from core.Screen import Screen
 from core.LevelFactory import LevelFactory
@@ -10,6 +14,7 @@ from datetime import datetime
 
 from core.utils.asteroid_factory import AsteroidFactory
 from core.utils.bullet_factory import BulletFactory
+from core.utils.image_helper import get_full_image_path
 from core.utils.spaceship_factory import SpaceshipFactory
 from core.utils.heart_factory import HeartFactory
 from core.utils.player_factory import PlayerFactory

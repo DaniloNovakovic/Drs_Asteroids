@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 import sys
+from core.utils.image_helper import get_full_image_path
 
 
 
@@ -24,7 +25,7 @@ class Multi(QMainWindow):
 
 
     def initWindow(self):
-        self.BackGround = QPixmap("galaxy.jpg")
+        self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
         self.BackGroundLabel = QtWidgets.QLabel(self)
         self.BackGroundLabel.setPixmap(self.BackGround)
         self.BackGroundLabel.setGeometry(0,0,1000,600)
