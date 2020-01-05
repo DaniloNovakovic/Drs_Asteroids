@@ -48,7 +48,7 @@ class AsteroidsGame:
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    asteroidsGame = AsteroidsGame(player_inputs=[PlayerInput(player_id="djura", color="red"),
-                                                 PlayerInput(player_id="steva", color="yellow")])
+    asteroidsGame = AsteroidsGame(player_inputs=[PlayerInput(player_id="1", color="red"),
+                                                 PlayerInput(player_id="2", color="yellow")])
     asteroidsGame.start()
     sys.exit(app.exec_())

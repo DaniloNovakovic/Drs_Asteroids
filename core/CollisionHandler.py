@@ -14,14 +14,11 @@ class CollisionHandler:
         self._remove_off_screen_elements(storage)
         self._hide_screen_elements(storage)
 
-    @staticmethod
-    def _handle_spacecraft_with_asteroid_collision(storage: Storage):
+    def _handle_spacecraft_with_asteroid_collision(self, storage: Storage):
         """
         Removes life of the player if his spacecraft has hit the asteroid.
         If player has no lives left then spacecraft will be removed from screen
         """
-        player1 = storage.players[0]
-        player2 = storage.players[1]
         for spacecraft in storage.spacecrafts:
             for asteroid in storage.asteroids:
                 if not are_circles_collided(spacecraft, asteroid):
@@ -30,8 +27,15 @@ class CollisionHandler:
                 player.remove_life()
                 if player.is_dead():
                     spacecraft.move_off_screen()
-                    if player1.is_dead() and player2.is_dead():
+                    if self._are_all_players_dead(storage.players):
                         exit()
+
+    @staticmethod
+    def _are_all_players_dead(players = []):
+        for player in players:
+            if not player.is_dead():
+                return False
+        return True
 
     @staticmethod
     def _handle_spacecraft_with_heat_collision(storage: Storage):
