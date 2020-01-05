@@ -4,6 +4,8 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 from Clinet.OnePlayer import One
 from Clinet.MultiPlayer import Multi
+from core.utils.image_helper import get_full_image_path
+
 
 
 
@@ -54,7 +56,7 @@ class MyWindow(QMainWindow):
         self.dialog2.show()
 
     def initWindow(self):
-        self.BackGround = QPixmap("galaxy.jpg")
+        self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
         self.BackGroundLabel = QtWidgets.QLabel(self)
         self.BackGroundLabel.setPixmap(self.BackGround)
         self.BackGroundLabel.setGeometry(0, 0, 1000, 600)
