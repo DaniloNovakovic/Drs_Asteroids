@@ -1,7 +1,8 @@
-from datetime import datetime
 import sys
+from datetime import datetime
 
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
+
 from core.CollisionHandler import CollisionHandler
 from core.Game import Game
 from core.KeyHandler import KeyHandler
@@ -13,6 +14,7 @@ from core.utils.bullet_factory import BulletFactory
 from core.utils.heart_factory import HeartFactory
 from core.utils.player_factory import PlayerFactory
 from core.utils.spaceship_factory import SpaceshipFactory
+from entities.PlayerInput import PlayerInput
 
 
 class AsteroidsGame:
@@ -29,7 +31,8 @@ class AsteroidsGame:
                                      asteroid_factory=asteroid_factory,
                                      spaceship_factory=spaceship_factory,
                                      heart_factory=hearts_factory,
-                                     player_factory=player_factory)
+                                     player_factory=player_factory,
+                                     player_inputs=player_inputs)
         bullet_factory = BulletFactory(screen=self.screen)
         key_handler = KeyHandler(bullet_factory=bullet_factory)
         movement_handler = MovementHandler(datetime.now(), screen_width, screen_height)
@@ -45,6 +48,7 @@ class AsteroidsGame:
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    asteroidsGame = AsteroidsGame()
+    asteroidsGame = AsteroidsGame(player_inputs=[PlayerInput(player_id="djura", color="red"),
+                                                 PlayerInput(player_id="steva", color="yellow")])
     asteroidsGame.start()
     sys.exit(app.exec_())

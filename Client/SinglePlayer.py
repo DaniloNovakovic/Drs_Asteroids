@@ -65,11 +65,10 @@ class SinglePlayerWindow(QMainWindow):
 
     def onPlayButtonClicked(self):
         player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
-        print(player1_input.player_id, player1_input.color)
 
         # TODO: Fix crash
-        #game = AsteroidsGame()
-        #game.start()
+        # self.game = AsteroidsGame(player_inputs=[player1_input])
+        # self.game.start()
 
 def wi():
     app = QApplication(sys.argv)

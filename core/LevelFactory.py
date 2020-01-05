@@ -4,6 +4,7 @@ from core.utils.heart_factory import HeartFactory
 from core.utils.spaceship_factory import SpaceshipFactory
 from core.utils.asteroid_factory import AsteroidFactory
 from entities.Player import Player
+from entities.PlayerInput import PlayerInput
 from persistance.Storage import Storage
 from entities.PlayerConfig import PlayerConfig
 from core.utils.player_factory import PlayerFactory
@@ -12,66 +13,74 @@ from PyQt5.Qt import Qt
 
 class LevelFactory:
     def __init__(self, screen_width, screen_height, asteroid_factory: AsteroidFactory,
-                 spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory, player_factory: PlayerFactory):
+                 spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory,
+                 player_factory: PlayerFactory, player_inputs=None):
+        if player_inputs is None:
+            player_inputs = [PlayerInput(player_id="1", color="red")]
+
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.asteroid_factory = asteroid_factory
         self.spaceship_factory = spaceship_factory
         self.heart_factory = heart_factory
         self.player_factory = player_factory
+        self.player_inputs = player_inputs
 
     def create_new(self, level_number: int = 1, storage: Storage = None) -> Storage:
+        asteroids = []
+
+        players = self._create_new_players()
+        spaceships = self._create_new_spaceships()
+        hearts = self._create_new_hearts()
+
         if level_number == 1:
             asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
-            players = self._create_new_players()
-            spaceships = self._create_new_spaceships()
-            hearts = hearts = self._create_new_hearts()
-            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 2:
             asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
-            players = self._create_new_players()
-            spaceships = self._create_new_spaceships()
-            hearts = hearts = self._create_new_hearts()
-            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 3:
             asteroids = self._create_new_asteroids3(num_asteroids=level_number + 6)
-            players = self._create_new_players()
-            spaceships = self._create_new_spaceships()
-            hearts = self._create_new_hearts()
-            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 4:
             asteroids = self._create_new_asteroids4(num_asteroids=level_number + 8)
-            players = self._create_new_players()
-            spaceships = self._create_new_spaceships()
-            hearts = hearts = self._create_new_hearts()
-            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
         elif level_number == 5:
             asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
-            players = self._create_new_players()
-            spaceships = self._create_new_spaceships()
-            hearts = hearts = self._create_new_hearts()
-            return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
+
+        return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
 
     def _create_new_players(self) -> list:
-        player1_config = PlayerConfig()
-        player1 = self.player_factory.create_player(player_id='1', spaceship_id='1', player_config=player1_config)
-        player2_config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
+        """
+        Creates new players based on self.player_inputs.
+        Note: Current implementation only supports 1 or 2 players.
+        """
+        players = []
+        index = 0
+        for player_input in self.player_inputs:
+            config = PlayerConfig()
+            if index > 0:
+                config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control)
-        player2 = self.player_factory.create_player(player_id='2', spaceship_id='2', player_config=player2_config)
-        # player3 = Player('3', '3')
-        # player4 = Player('4', '4')
-        return [player1, player2]
+            player = self.player_factory.create_player(player_id=player_input.player_id,
+                                                       spaceship_id=player_input.player_id, player_config=config)
+            players.append(player)
+            index += 1
+        return players
 
     def _create_new_spaceships(self):
-        ship1 = self.spaceship_factory.create_spaceship('1', '1', 'red', x=(self.screen_width / 2 - 50),
-                                                        y=(self.screen_height / 2), angle=-180)
-        ship2 = self.spaceship_factory.create_spaceship('2', '2', 'yellow', x=(self.screen_width / 2 + 50),
-                                                        y=(self.screen_height / 2), angle=-180)
-        # ship3 = spaceship_factory.create_spaceship('3', '3', 'blue', x=100, y=250, velocity=10)
-        # ship4 = spaceship_factory.create_spaceship('4', '4', 'green', x=300, y=250, velocity=20)
-        return [ship1, ship2]
+        spaceships = []
+        index = 0
+        for player_input in self.player_inputs:
+            x = (self.screen_width / 2 - 50)
+            y = (self.screen_height / 2)
+            if index > 0:
+                x = (self.screen_width / 2 + 50)
+            ship = self.spaceship_factory.create_spaceship(spaceship_id=player_input.player_id,
+                                                           player_id=player_input.player_id,
+                                                           color=player_input.color,
+                                                           x=x, y=y, angle=-180)
+            spaceships.append(ship)
+            index += 1
+        return spaceships
 
-    def _create_new_hearts(self): #srca koja mogu da se pokupe
+    def _create_new_hearts(self):  # srca koja mogu da se pokupe
         heart1 = self.heart_factory.create_heart('1', x=150, y=150)
         heart2 = self.heart_factory.create_heart('2', x=300, y=300)
         return [heart1, heart2]
