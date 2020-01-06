@@ -1,14 +1,14 @@
 from random import randint
 
-from core.utils.heart_factory import HeartFactory
-from core.utils.spaceship_factory import SpaceshipFactory
+from PyQt5.Qt import Qt
+
 from core.utils.asteroid_factory import AsteroidFactory
-from entities.Player import Player
+from core.utils.heart_factory import HeartFactory
+from core.utils.player_factory import PlayerFactory
+from core.utils.spaceship_factory import SpaceshipFactory
+from entities.PlayerConfig import PlayerConfig
 from entities.PlayerInput import PlayerInput
 from persistance.Storage import Storage
-from entities.PlayerConfig import PlayerConfig
-from core.utils.player_factory import PlayerFactory
-from PyQt5.Qt import Qt
 
 
 class LevelFactory:
@@ -26,10 +26,10 @@ class LevelFactory:
         self.player_factory = player_factory
         self.player_inputs = player_inputs
 
-    def create_new(self, level_number: int = 1, storage: Storage = None) -> Storage:
+    def create_new(self, level_number: int = 1, prev_storage: Storage = None) -> Storage:
         asteroids = []
 
-        players = self._create_new_players()
+        players = self._create_new_players() if prev_storage is None else prev_storage.players
         spaceships = self._create_new_spaceships()
         hearts = self._create_new_hearts()
 
@@ -54,10 +54,10 @@ class LevelFactory:
         players = []
         index = 0
         for player_input in self.player_inputs:
-            config = PlayerConfig()
+            config = PlayerConfig(bullet_color=player_input.color)
             if index > 0:
                 config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
-                                      , key_up=Qt.Key_W, key_shoot=Qt.Key_Control)
+                                      , key_up=Qt.Key_W, key_shoot=Qt.Key_Control, bullet_color=player_input.color)
             player = self.player_factory.create_player(player_id=player_input.player_id,
                                                        spaceship_id=player_input.player_id, player_config=config)
             players.append(player)
@@ -81,8 +81,8 @@ class LevelFactory:
         return spaceships
 
     def _create_new_hearts(self):  # srca koja mogu da se pokupe
-        heart1 = self.heart_factory.create_heart('1', x=150, y=150)
-        heart2 = self.heart_factory.create_heart('2', x=300, y=300)
+        heart1 = self.heart_factory.create_heart('1', x=150 + randint(-100, 100), y=150 + randint(-100, 100))
+        heart2 = self.heart_factory.create_heart('2', x=300 + randint(-100, 100), y=300 + randint(-100, 100))
         return [heart1, heart2]
 
     def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
