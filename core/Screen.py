@@ -18,7 +18,7 @@ class Screen(QMainWindow):
         self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
         self.BackGroundLabel = QtWidgets.QLabel(self)
         self.BackGroundLabel.setPixmap(self.BackGround)
-        self.BackGroundLabel.setGeometry(0, 0, 1000, 600)
+        self.BackGroundLabel.setGeometry(0, 0, screen_width, screen_height)
 
     def keyPressEvent(self, event):
         super().keyPressEvent(event)
