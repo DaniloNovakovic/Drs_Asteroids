@@ -21,9 +21,6 @@ class CounterThread(QThread):
 class Game:
     def __init__(self, screen: Screen, level_factory: LevelFactory, key_handler: KeyHandler,
                  collision_handler: CollisionHandler, movement_handler: MovementHandler):
-        # TODO: playerID to be set by game server
-        self.playerID = '1'
-        self.playerID2 = '2'
         self.screen = screen
         self.level_factory = level_factory
         self.key_handler = key_handler
@@ -50,9 +47,12 @@ class Game:
         if len(self.storage.asteroids) == 0:
             self.game_level = game_level + 1
             for spacecraft in self.storage.spacecrafts:
-                spacecraft.label.hide()
+                spacecraft.destroy()
             for bullet in self.storage.bullets:
-                bullet.label.hide()
+                bullet.destroy()
+            for heart in self.storage.hearts:
+                heart.destroy()
             self.storage.spacecrafts.clear()
             self.storage.bullets.clear()
-            self.storage = self.level_factory.create_new(self.game_level)
+            self.storage.hearts.clear()
+            self.storage = self.level_factory.create_new(self.game_level, self.storage)
