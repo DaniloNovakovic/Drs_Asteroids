@@ -59,7 +59,8 @@ class LevelFactory:
                 config = PlayerConfig(key_left=Qt.Key_A, key_right=Qt.Key_D, key_down=Qt.Key_S
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control, bullet_color=player_input.color)
             player = self.player_factory.create_player(player_id=player_input.player_id,
-                                                       spaceship_id=player_input.player_id, player_config=config)
+                                                       spaceship_id=player_input.player_id, player_config=config,
+                                                       status_x=(index+1)*15, status_y=(index+1)*15)
             players.append(player)
             index += 1
         return players
