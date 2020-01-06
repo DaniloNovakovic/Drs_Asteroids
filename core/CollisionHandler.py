@@ -19,11 +19,14 @@ class CollisionHandler:
         If player has no lives left then spacecraft will be removed from screen
         """
         for spacecraft in storage.spacecrafts:
+            if spacecraft.is_invincible:
+                continue
             for asteroid in storage.asteroids:
                 if not are_circles_collided(spacecraft, asteroid):
                     continue
                 player = storage.get_player_by_id(spacecraft.player_id)
                 player.remove_life()
+                spacecraft.set_invincibility(True)
                 if player.is_dead():
                     spacecraft.destroy()
                     if self._are_all_players_dead(storage.players):
@@ -32,6 +35,7 @@ class CollisionHandler:
                         to make our application extendable for Tournament mode
                         """
                         exit()
+                break
 
     @staticmethod
     def _are_all_players_dead(players=[]):

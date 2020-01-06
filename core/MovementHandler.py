@@ -28,6 +28,9 @@ class MovementHandler:
         for spacecraft in storage.get_all_spacecrafts():
             spacecraft.move(elapsed_time)
             self._clip(spacecraft)
+            if spacecraft.is_invincible:
+                #print(f"Increase time by {elapsed_time} (current time{spacecraft.time_spent_invincible})")
+                spacecraft.increase_time_invincible(elapsed_time)
 
         for heart in storage.get_all_hearts():
             heart.move(elapsed_time)

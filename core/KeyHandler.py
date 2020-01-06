@@ -21,7 +21,7 @@ class KeyHandler:
                 spacecraft.accelerate()
             elif pressed_key == config.key_down:
                 spacecraft.decelerate()
-            elif pressed_key == config.key_shoot:
+            elif pressed_key == config.key_shoot and not spacecraft.is_invincible:
                 storage.add_bullet(self.bullet_factory.create_bullet(player_id=player.player_id, color=config.bullet_color,
                                                                         x=spacecraft.x, y=spacecraft.y,
                                                                         angle=spacecraft.angle))

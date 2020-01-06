@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget
 
+from core.utils.qt_utils import create_pixmap
 from entities.MovableCircle import MovableCircle
 
 
@@ -9,3 +10,21 @@ class Spaceship(MovableCircle):
         super().__init__(screen=screen, img_abs_path=img_abs_path, x=x, y=y, velocity=velocity, angle=angle, r=r)
         self.spaceship_id = spaceship_id
         self.player_id = player_id
+        self.is_invincible = False
+        self.time_spent_invincible = 0
+        self.MAX_TIME_INVINCIBLE = 250
+
+    def set_invincibility(self, is_invincible: bool):
+        if not self.is_invincible and is_invincible:
+            self.time_spent_invincible = 0
+        self.is_invincible = is_invincible
+        self._update_image()
+
+    def _update_image(self):
+        """ TODO: pretvara sliku labele u sivo belu"""
+        pass
+
+    def increase_time_invincible(self, elapsed_time: float):
+        self.time_spent_invincible += elapsed_time
+        if self.time_spent_invincible >= self.MAX_TIME_INVINCIBLE:
+            self.set_invincibility(False)

@@ -16,5 +16,5 @@ class PlayerStatus:
 
     def update(self, name, num_lives, num_points):
         text = f"ID: {name} | L: {num_lives} | PTS: {num_points}"
-        # print(f"Status: {text}") # For debugging purposes
+        print(f"Status: {text}") # For debugging purposes
         self.label.setText(text)
