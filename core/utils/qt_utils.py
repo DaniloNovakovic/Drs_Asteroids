@@ -1,6 +1,6 @@
 from math import radians
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage
 from PyQt5.QtGui import QTransform, QPixmap
@@ -29,3 +29,9 @@ def rotate_pixmap(pixmap: QPixmap, angle: float) -> QPixmap:
     trans = QTransform()
     trans.rotate(angle)
     return pixmap.transformed(trans)
+
+
+def convert_to_grayscale(pixmap: QPixmap) -> QPixmap:
+    image = QtGui.QPixmap.toImage(pixmap)
+    grayscale = image.convertToFormat(QtGui.QImage.Format_Grayscale8)
+    return QtGui.QPixmap.fromImage(grayscale)

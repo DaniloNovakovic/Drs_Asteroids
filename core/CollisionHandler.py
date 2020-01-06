@@ -77,6 +77,7 @@ class CollisionHandler:
 
                 bullet.destroy()
                 asteroid.destroy()
+                break
         storage.asteroids.extend(new_asteroids)
 
     def _remove_destroyed_elements(self, storage: Storage):

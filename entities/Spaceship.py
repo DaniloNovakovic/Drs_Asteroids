@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget
 
-from core.utils.qt_utils import create_pixmap
+from core.utils.qt_utils import create_pixmap, convert_to_grayscale
 from entities.MovableCircle import MovableCircle
 
 
@@ -13,6 +13,7 @@ class Spaceship(MovableCircle):
         self.is_invincible = False
         self.time_spent_invincible = 0
         self.MAX_TIME_INVINCIBLE = 250
+        self.original_pixmap = self.pixmap
 
     def set_invincibility(self, is_invincible: bool):
         if not self.is_invincible and is_invincible:
@@ -21,8 +22,11 @@ class Spaceship(MovableCircle):
         self._update_image()
 
     def _update_image(self):
-        """ TODO: pretvara sliku labele u sivo belu"""
-        pass
+        if self.is_invincible:
+            self.pixmap = convert_to_grayscale(self.pixmap)
+        else:
+            self.pixmap = self.original_pixmap
+        self._rotate_label()
 
     def increase_time_invincible(self, elapsed_time: float):
         self.time_spent_invincible += elapsed_time

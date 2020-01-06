@@ -3,9 +3,6 @@ from PyQt5 import QtWidgets
 
 class PlayerStatus:
     def __init__(self, screen, x, y, padding=15):
-        """
-        TODO: Create label with text on screen, and in `update` method update label's text
-        """
         self.x = x
         self.y = y
         self.padding = padding
@@ -16,5 +13,5 @@ class PlayerStatus:
 
     def update(self, name, num_lives, num_points):
         text = f"ID: {name} | L: {num_lives} | PTS: {num_points}"
-        print(f"Status: {text}") # For debugging purposes
+        # print(f"Status: {text}")  # For debugging purposes
         self.label.setText(text)
