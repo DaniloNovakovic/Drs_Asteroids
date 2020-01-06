@@ -12,15 +12,16 @@ class KeyHandler:
     def handle(self, storage: Storage, pressed_key):
         for spacecraft in storage.spacecrafts:
             player = storage.get_player_by_spaceship(spacecraft)
-            if pressed_key == player.player_config.key_left:
+            config = player.player_config
+            if pressed_key == config.key_left:
                 spacecraft.rotate_left()
-            elif pressed_key == player.player_config.key_right:
+            elif pressed_key == config.key_right:
                 spacecraft.rotate_right()
-            elif pressed_key == player.player_config.key_up:
+            elif pressed_key == config.key_up:
                 spacecraft.accelerate()
-            elif pressed_key == player.player_config.key_down:
+            elif pressed_key == config.key_down:
                 spacecraft.decelerate()
-            elif pressed_key == player.player_config.key_shoot:
-                storage.add_bullet(self.bullet_factory.create_bullet(player_id=player.player_id, color='red',
+            elif pressed_key == config.key_shoot:
+                storage.add_bullet(self.bullet_factory.create_bullet(player_id=player.player_id, color=config.bullet_color,
                                                                         x=spacecraft.x, y=spacecraft.y,
                                                                         angle=spacecraft.angle))
