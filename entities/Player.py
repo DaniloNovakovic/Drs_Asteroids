@@ -25,8 +25,6 @@ class Player:
     def update_status(self):
         self.status.update(self.player_id, self.num_lives, self.num_points)
 
-
-
     def add_life(self):
         self.num_lives += 1
         self.update_status()

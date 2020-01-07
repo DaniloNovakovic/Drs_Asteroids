@@ -50,6 +50,8 @@ class Game:
         self.new_level(self.game_level)
         if self._are_all_players_dead(self.storage.players):
             self.on_game_end(self.storage)
+            #self.update_thread.quit() TODO: exit thread
+
 
     @staticmethod
     def _are_all_players_dead(players=[]):
