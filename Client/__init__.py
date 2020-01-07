@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from Client.MultiPlayer import MultiPlayerWindow
 from Client.SinglePlayer import SinglePlayerWindow
+from Client.Tournament import TournamentWindow
 from core.utils.image_helper import get_full_image_path
 
 
@@ -36,6 +37,14 @@ class MyWindow(QMainWindow):
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
         self.b2.clicked.connect(self.on_push_button2)
         self.dialog2 = MultiPlayerWindow()
+
+        self.b2 = QtWidgets.QPushButton(self)
+        self.b2.setText("TOURNAMENT")
+        self.b2.setGeometry(400, 200, 250, 50)
+        self.b2.setStyleSheet(
+            "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
+        self.b2.clicked.connect(self.on_push_button2)
+        self.dialog2 = TournamentWindow()
 
         self.b2 = QtWidgets.QPushButton(self)
         self.b2.setText("SCORE")
