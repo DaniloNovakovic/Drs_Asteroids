@@ -44,4 +44,4 @@ class AsteroidFactory:
 
 
 def _randomize_angle(angle: float) -> float:
-    return angle + randint(-5, 5)  # TODO: Increase randomness of this function
+    return angle + randint(-180, 180)  # TODO: Increase randomness of this function

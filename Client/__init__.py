@@ -40,21 +40,21 @@ class MyWindow(QMainWindow):
 
         self.b2 = QtWidgets.QPushButton(self)
         self.b2.setText("TOURNAMENT")
-        self.b2.setGeometry(400, 200, 250, 50)
+        self.b2.setGeometry(400, 300, 250, 50)
         self.b2.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
-        self.b2.clicked.connect(self.on_push_button2)
-        self.dialog2 = TournamentWindow()
+        self.b2.clicked.connect(self.on_push_button3)
+        self.dialog3 = TournamentWindow()
 
         self.b2 = QtWidgets.QPushButton(self)
         self.b2.setText("SCORE")
-        self.b2.setGeometry(400, 300, 250, 50)
+        self.b2.setGeometry(400, 400, 250, 50)
         self.b2.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
         self.b3 = QtWidgets.QPushButton(self)
         self.b3.setText("EXIT")
-        self.b3.setGeometry(400, 400, 250, 50)
+        self.b3.setGeometry(400, 500, 250, 50)
         self.b3.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
         self.b3.clicked.connect(self.quit)
@@ -64,6 +64,9 @@ class MyWindow(QMainWindow):
 
     def on_push_button2(self):
         self.dialog2.show()
+
+    def on_push_button3(self):
+        self.dialog3.show()
 
     def initWindow(self):
         self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
