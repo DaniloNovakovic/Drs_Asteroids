@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget
+from PyQt5.uic.properties import QtGui
 
 from entities.PlayerConfig import PlayerConfig
 from entities.PlayerStatus import PlayerStatus
@@ -23,6 +24,8 @@ class Player:
 
     def update_status(self):
         self.status.update(self.player_id, self.num_lives, self.num_points)
+
+
 
     def add_life(self):
         self.num_lives += 1
