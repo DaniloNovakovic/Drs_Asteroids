@@ -18,9 +18,14 @@ class CounterThread(QThread):
             time.sleep(float(1 / self.tick_frequency))
 
 
+def _exit_game():
+    exit()
+
+
 class Game:
     def __init__(self, screen: Screen, level_factory: LevelFactory, key_handler: KeyHandler,
-                 collision_handler: CollisionHandler, movement_handler: MovementHandler):
+                 collision_handler: CollisionHandler, movement_handler: MovementHandler,
+                 on_game_end=_exit_game):
         self.screen = screen
         self.level_factory = level_factory
         self.key_handler = key_handler
@@ -29,6 +34,7 @@ class Game:
         self.storage = level_factory.create_new(self.game_level)
         self.movement_handler = movement_handler
         self.update_thread = CounterThread()
+        self.on_game_end = on_game_end
 
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
@@ -42,6 +48,15 @@ class Game:
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
         self.collision_handler.handle(storage=self.storage)
         self.new_level(self.game_level)
+        if self._are_all_players_dead(self.storage.players):
+            self.on_game_end(self.storage)
+
+    @staticmethod
+    def _are_all_players_dead(players=[]):
+        for player in players:
+            if not player.is_dead():
+                return False
+        return True
 
     def new_level(self, game_level):
         if len(self.storage.asteroids) == 0:

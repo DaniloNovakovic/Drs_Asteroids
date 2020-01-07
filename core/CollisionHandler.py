@@ -1,5 +1,8 @@
+from PyQt5.uic.properties import QtGui
+
 from persistance.Storage import Storage
 from core.utils.collision import are_circles_collided
+from entities.Player import Player
 
 
 class CollisionHandler:
@@ -29,20 +32,10 @@ class CollisionHandler:
                 spacecraft.set_invincibility(True)
                 if player.is_dead():
                     spacecraft.destroy()
-                    if self._are_all_players_dead(storage.players):
-                        """
-                        TODO: Create callback function instead of calling "exit" directly, this would allow us
-                        to make our application extendable for Tournament mode
-                        """
-                        exit()
+
                 break
 
-    @staticmethod
-    def _are_all_players_dead(players=[]):
-        for player in players:
-            if not player.is_dead():
-                return False
-        return True
+
 
     @staticmethod
     def _handle_spacecraft_with_heart_collision(storage: Storage):
@@ -79,6 +72,8 @@ class CollisionHandler:
                 asteroid.destroy()
                 break
         storage.asteroids.extend(new_asteroids)
+
+
 
     def _remove_destroyed_elements(self, storage: Storage):
         storage.asteroids = self._filter_out_hidden_elements(storage.asteroids)
