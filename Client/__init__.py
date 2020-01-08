@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from Client.MultiPlayer import MultiPlayerWindow
 from Client.SinglePlayer import SinglePlayerWindow
 from Client.Tournament import TournamentWindow
+from Client.Scores import Score
 from core.utils.image_helper import get_full_image_path
 
 
@@ -51,6 +52,8 @@ class MyWindow(QMainWindow):
         self.b2.setGeometry(400, 400, 250, 50)
         self.b2.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
+        self.b2.clicked.connect(self.on_push_button4)
+        self.dialog4 = Score()
 
         self.b3 = QtWidgets.QPushButton(self)
         self.b3.setText("EXIT")
@@ -67,6 +70,9 @@ class MyWindow(QMainWindow):
 
     def on_push_button3(self):
         self.dialog3.show()
+
+    def on_push_button4(self):
+        self.dialog4.show()
 
     def initWindow(self):
         self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))

@@ -11,6 +11,9 @@ from core.utils.image_helper import get_full_image_path
 # from entities.PlayerInput import PlayerInput
 
 
+
+
+
 class Score(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -20,10 +23,7 @@ class Score(QMainWindow):
 
     def initUI(self):
         self.initWindow()
-
-    def read_from_file(self):
-        f = open("test.txt", "r")
-        print(f.readline())
+        #self.read_from_file()
 
     def initWindow(self):
         self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
@@ -31,6 +31,9 @@ class Score(QMainWindow):
         self.BackGroundLabel.setPixmap(self.BackGround)
         self.BackGroundLabel.setGeometry(0, 0, 1000, 600)
 
+    def read_from_file(self):
+        f = open("../test.txt", "r")
+        print(f.read())
 
 def wi():
     app = QApplication(sys.argv)
