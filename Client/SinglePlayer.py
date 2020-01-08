@@ -4,7 +4,7 @@ from entities.PlayerInput import PlayerInput
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 
 from core.utils.image_helper import get_full_image_path
 
@@ -37,6 +37,7 @@ class SinglePlayerWindow(QMainWindow):
         self.player1NameLineEdit = QLineEdit(self)
         self.player1NameLineEdit.setGeometry(200, 200, 200, 50)
 
+
     def chooseShip(self):
         self.choseShipLabel = QLabel(self)
         self.choseShipLabel.setText("Choose ship")
@@ -63,10 +64,18 @@ class SinglePlayerWindow(QMainWindow):
         self.playButton.clicked.connect(self.onPlayButtonClicked)
 
     def onPlayButtonClicked(self):
-        player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+        if self.player1NameLineEdit.text()=="" or str(self.player1Cb.currentText()) == "" :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Enter your username and choose ship")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+        else:
 
-        self.game = AsteroidsGame(player_inputs=[player1_input])
-        self.game.start()
+            player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+
+            self.game = AsteroidsGame(player_inputs=[player1_input])
+            self.game.start()
 
 def wi():
     app = QApplication(sys.argv)
