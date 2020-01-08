@@ -12,9 +12,10 @@ from persistance.Storage import Storage
 
 
 class LevelFactory:
-    def __init__(self, screen_width, screen_height, asteroid_factory: AsteroidFactory,
+    def __init__(self, active_game, screen_width, screen_height, asteroid_factory: AsteroidFactory,
                  spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory,
                  player_factory: PlayerFactory, player_inputs=None):
+        self.active_game = None
         if player_inputs is None:
             player_inputs = [PlayerInput(player_id="1", color="red")]
 
@@ -25,6 +26,7 @@ class LevelFactory:
         self.heart_factory = heart_factory
         self.player_factory = player_factory
         self.player_inputs = player_inputs
+        self.active_game = active_game
 
     def create_new(self, level_number: int = 1, prev_storage: Storage = None) -> Storage:
         asteroids = []
@@ -44,8 +46,13 @@ class LevelFactory:
         elif level_number == 5:
             asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
         else:
-            #kraj partije
-            pass
+            max_num_points = 0
+            winner_player = None
+            for player in players:
+                if player.num_points > max_num_points:
+                    max_num_points = player.num_points
+                    winner_player = player
+            self.active_game.notify(winner_player)
 
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
 
