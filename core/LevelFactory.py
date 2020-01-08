@@ -44,7 +44,7 @@ class LevelFactory:
         elif level_number == 5:
             asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
         else:
-            #trigeruje se event
+            #kraj partije
             pass
 
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)

@@ -40,6 +40,7 @@ class Game:
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
         self.update_thread.game_tick.connect(self.update)
+        self.active_game.notify(self.storage.players[0])
         self.update_thread.start()
 
     def on_key_pressed(self, pressed_key):
