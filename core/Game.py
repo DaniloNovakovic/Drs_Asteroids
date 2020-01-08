@@ -51,7 +51,17 @@ class Game:
         if self._are_all_players_dead(self.storage.players):
             self.on_game_end(self.storage)
             #self.update_thread.quit() TODO: exit thread
+        if self._is_player_in_tournament_dead(self.storage.players):
+            #event se trigeruje
+            pass
 
+    @staticmethod
+    def _is_player_in_tournament_dead(self, players=[]):
+        #trigeruje se event
+        for player in players:
+            if player.is_dead():
+                self.storage.players.remove(player)
+                return True
 
     @staticmethod
     def _are_all_players_dead(players=[]):
