@@ -23,7 +23,7 @@ def _exit_game():
 
 
 class Game:
-    def __init__(self, screen: Screen, level_factory: LevelFactory, key_handler: KeyHandler,
+    def __init__(self, active_game, screen: Screen, level_factory: LevelFactory, key_handler: KeyHandler,
                  collision_handler: CollisionHandler, movement_handler: MovementHandler,
                  on_game_end=_exit_game):
         self.screen = screen
@@ -35,6 +35,7 @@ class Game:
         self.movement_handler = movement_handler
         self.update_thread = CounterThread()
         self.on_game_end = on_game_end
+        self.active_game = active_game
 
     def start(self):
         self.screen.keyPressed.connect(self.on_key_pressed)
@@ -52,8 +53,8 @@ class Game:
             self.on_game_end(self.storage)
             #self.update_thread.quit() TODO: exit thread
         if self._is_player_in_tournament_dead(self.storage.players):
-            #event se trigeruje
-            pass
+            self.active_game.notify(self.storage.players)
+
 
     @staticmethod
     def _is_player_in_tournament_dead(self, players=[]):
@@ -62,6 +63,7 @@ class Game:
             if player.is_dead():
                 self.storage.players.remove(player)
                 return True
+        return False
 
     @staticmethod
     def _are_all_players_dead(players=[]):

@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
@@ -132,31 +133,31 @@ class TournamentWindow(QMainWindow):
         player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
         finale_players = []
-        self.game = AsteroidsGame(player_inputs=[player1_input, player2_input])
+        self.game = AsteroidsGame(active_game=self, player_inputs=[player1_input, player2_input])
         self.game.start()
 
-        #Cekanje na prvog pobednika
-        while(self.winner == None):
-            pass
+        # Cekanje na prvog pobednika
+        while (self.winner == None):
+            sleep(0.5)
         finale_players.append(self.winner)
         self.winner = None
 
-        self.game = AsteroidsGame(player_inputs=[player3_input, player4_input])
+        self.game = AsteroidsGame(active_game=self, player_inputs=[player3_input, player4_input])
         self.game.start()
 
-        #cekanje na drugog pobednika
-        while(self.winner == None):
-            pass
+        # cekanje na drugog pobednika
+        while (self.winner == None):
+            sleep(0.5)
         finale_players.append(self.winner)
         self.winner = None
 
-        #Finale
-        self.game = AsteroidsGame(player_inputs=finale_players)
+        # Finale
+        self.game = AsteroidsGame(active_game=self, player_inputs=finale_players)
         self.game.start()
 
-
-    def notify(self, player = None):
+    def notify(self, player):
         self.winner = player
+
 
 def wi():
     app = QApplication(sys.argv)

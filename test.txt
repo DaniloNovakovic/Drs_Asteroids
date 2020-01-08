@@ -4,3 +4,6 @@ DAvid,1200
 Pera,57800
 Djura,0
 Steve,200
+asd,400
+asd,0
+asdaa,0

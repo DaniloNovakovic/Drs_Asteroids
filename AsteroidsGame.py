@@ -38,7 +38,7 @@ def save_score_to_file(storage: Storage):
 
 
 class AsteroidsGame:
-    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600):
+    def __init__(self, active_game, player_inputs=[], screen_width=1000, screen_height=600):
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
@@ -58,7 +58,7 @@ class AsteroidsGame:
         movement_handler = MovementHandler(datetime.now(), screen_width, screen_height)
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
-        self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
+        self.game = Game(active_game, self.screen, level_factory=level_factory, key_handler=key_handler,
                          collision_handler=collision_handler, movement_handler=movement_handler,
                          on_game_end=save_score_to_file)
 
