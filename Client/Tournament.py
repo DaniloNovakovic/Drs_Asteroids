@@ -1,10 +1,11 @@
 import sys
+from time import sleep
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox
 
-from AsteroidsGame import AsteroidsGame
+from AsteroidTournament import AsteroidsTournament
 from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
 
@@ -12,6 +13,7 @@ from entities.PlayerInput import PlayerInput
 class TournamentWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.winner = None
         self.setGeometry(200, 200, 1000, 600)
         self.setWindowTitle("Tournament")
         self.initUI()
@@ -124,35 +126,37 @@ class TournamentWindow(QMainWindow):
         self.playButton.clicked.connect(self.onPlayButtonClicked)
 
     def onPlayButtonClicked(self):
-        if self.player1NameLineEdit.text() == "" or self.player2NameLineEdit.text() == "" or self.player3NameLineEdit.text() == "" or self.player4NameLineEdit.text() == "" \
-                or str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "" or str(
-            self.player3Cb.currentText()) == "" or str(self.player4Cb.currentText()) == "":
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.NoIcon)
-            msg.setText("Enter your username and choose ship")
-            msg.setWindowTitle("Error")
-            msg.exec_()
+        player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+        player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
 
-        elif self.player1NameLineEdit.text() == self.player2NameLineEdit.text() or self.player1NameLineEdit.text() == self.player3NameLineEdit.text() \
-            or self.player1NameLineEdit.text() == self.player4NameLineEdit.text() or self.player2NameLineEdit.text() == self.player3NameLineEdit.text()\
-            or self.player2NameLineEdit.text() == self.player4NameLineEdit.text()\
-            or self.player3NameLineEdit.text() == self.player4NameLineEdit.text() :
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.NoIcon)
-            msg.setText("Username must be unique")
-            msg.setWindowTitle("Error")
-            msg.exec_()
+        player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
+        player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
-        else:
+        finale_players = []
+        self.game = AsteroidsTournament(player_inputs=[player1_input, player2_input])
+        self.game.start()
 
-            player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
-            player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
+        # Cekanje na prvog pobednika
+        while (self.winner == None):
+            sleep(0.5)
+        finale_players.append(self.winner)
+        self.winner = None
 
-            player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
-            player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
+        self.game = AsteroidsTournament(player_inputs=[player3_input, player4_input])
+        self.game.start()
 
-            self.game = AsteroidsGame(player_inputs=[player1_input, player2_input])
-            self.game.start()
+        # cekanje na drugog pobednika
+        while (self.winner == None):
+            sleep(0.5)
+        finale_players.append(self.winner)
+        self.winner = None
+
+        # Finale
+        self.game = AsteroidsTournament(player_inputs=finale_players)
+        self.game.start()
+
+    def notify(self, player):
+        self.winner = player
 
 
 def wi():
