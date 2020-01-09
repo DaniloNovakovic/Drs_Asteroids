@@ -27,12 +27,28 @@ class LevelFactory:
         self.player_inputs = player_inputs
 
     def create_new(self, level_number: int = 1, prev_storage: Storage = None) -> Storage:
+        if prev_storage is not None:
+            self._clear_previous_level(prev_storage)
+
         players = self._create_new_players() if prev_storage is None else prev_storage.players
         alive_players = list(filter(lambda player: not player.is_dead(), players))
         spaceships = self._create_new_spaceships(players=alive_players, level_number=level_number)
         hearts = self._create_new_hearts()
         asteroids = self._create_new_asteroids(level_number)
+
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
+
+    @staticmethod
+    def _clear_previous_level(prev_storage):
+        for spacecraft in prev_storage.spacecrafts:
+            spacecraft.destroy()
+        for bullet in prev_storage.bullets:
+            bullet.destroy()
+        for heart in prev_storage.hearts:
+            heart.destroy()
+        prev_storage.spacecrafts.clear()
+        prev_storage.bullets.clear()
+        prev_storage.hearts.clear()
 
     def _create_new_players(self) -> list:
         """
@@ -48,7 +64,7 @@ class LevelFactory:
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control, bullet_color=player_input.color)
             player = self.player_factory.create_player(player_id=player_input.player_id,
                                                        spaceship_id=player_input.player_id, player_config=config,
-                                                       status_x=0, status_y=index*15)
+                                                       status_x=0, status_y=index * 15)
             players.append(player)
             index += 1
         return players
@@ -201,3 +217,4 @@ class LevelFactory:
             asteroid.angle = 270
             asteroids.append(asteroid)
         return asteroids
+
