@@ -30,7 +30,8 @@ class LevelFactory:
         asteroids = []
 
         players = self._create_new_players() if prev_storage is None else prev_storage.players
-        spaceships = self._create_new_spaceships()
+        alive_players = list(filter(lambda player: not player.is_dead(), players))
+        spaceships = self._create_new_spaceships(players=alive_players)
         hearts = self._create_new_hearts()
 
         if level_number == 1:
@@ -65,23 +66,23 @@ class LevelFactory:
             index += 1
         return players
 
-    def _create_new_spaceships(self):
+    def _create_new_spaceships(self, players=[]):
         spaceships = []
         index = 0
-        for player_input in self.player_inputs:
+        for player in players:
             x = (self.screen_width / 2 - 50)
             y = (self.screen_height / 2)
             if index > 0:
                 x = (self.screen_width / 2 + 50)
-            ship = self.spaceship_factory.create_spaceship(spaceship_id=player_input.player_id,
-                                                           player_id=player_input.player_id,
-                                                           color=player_input.color,
+            ship = self.spaceship_factory.create_spaceship(spaceship_id=player.player_id,
+                                                           player_id=player.player_id,
+                                                           color=player.player_config.bullet_color,
                                                            x=x, y=y, angle=-180)
             spaceships.append(ship)
             index += 1
         return spaceships
 
-    def _create_new_hearts(self):  # srca koja mogu da se pokupe
+    def _create_new_hearts(self):
         heart1 = self.heart_factory.create_heart('1', x=150 + randint(-100, 100), y=150 + randint(-100, 100))
         heart2 = self.heart_factory.create_heart('2', x=300 + randint(-100, 100), y=300 + randint(-100, 100))
         return [heart1, heart2]
