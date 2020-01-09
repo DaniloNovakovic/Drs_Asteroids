@@ -53,8 +53,8 @@ class Game:
         self.collision_handler.handle(storage=self.storage)
 
         if self._are_all_players_dead(self.storage.players):
-            self.on_game_end(self.storage)
             self._stop_threads()
+            self.on_game_end(self.storage)
             return
 
         if self._has_level_ended():
@@ -64,7 +64,6 @@ class Game:
 
     def _stop_threads(self):
         self.update_thread.game_tick.disconnect(self.update)
-        self.update_thread.quit()
         self.screen.keyPressed.disconnect(self.on_key_pressed)
 
     def _has_level_ended(self):
