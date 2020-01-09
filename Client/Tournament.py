@@ -1,11 +1,12 @@
 import sys
+from multiprocessing import Queue, Process
 from time import sleep
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox
 
-from AsteroidTournament import AsteroidsTournament
+from AsteroidTournament import AsteroidsTournament, start_game
 from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
 
@@ -128,32 +129,34 @@ class TournamentWindow(QMainWindow):
     def onPlayButtonClicked(self):
         player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
         player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
-
         player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
         player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
-        finale_players = []
-        self.game = AsteroidsTournament(active_game=self, player_inputs=[player1_input, player2_input])
-        self.game.start()
+        player_by_id = dict()
+        player_by_id[player1_input.player_id] = player1_input
+        player_by_id[player2_input.player_id] = player2_input
+        player_by_id[player3_input.player_id] = player3_input
+        player_by_id[player4_input.player_id] = player4_input
 
-        # Cekanje na prvog pobednika
-        while (self.winner == None):
-            sleep(0.5)
-        finale_players.append(self.winner)
-        self.winner = None
+        q = Queue()
+        winner1_id = self._start_game_process(q, player1_input, player2_input)
+        print("Game 1 winner: ", winner1_id)
 
-        self.game = AsteroidsTournament(active_game=self, player_inputs=[player3_input, player4_input])
-        self.game.start()
+        winner2_id = self._start_game_process(q, player3_input, player4_input)
+        print("Game 2 winner: ", winner2_id)
 
-        # cekanje na drugog pobednika
-        while (self.winner == None):
-            sleep(0.5)
-        finale_players.append(self.winner)
-        self.winner = None
+        tournament_winner_id = self._start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id])
+        print(f"Tournament winner is: {tournament_winner_id}")
+        exit()
 
-        # Finale
-        self.game = AsteroidsTournament(active_game=self, player_inputs=finale_players)
-        self.game.start()
+    @staticmethod
+    def _start_game_process(q, player1_input, player2_input) -> str:
+        process = Process(target=start_game, args=(q, player1_input.player_id, player1_input.color,
+                                                   player2_input.player_id, player2_input.color))
+        process.start()
+        winner_id = q.get()
+        process.kill()
+        return winner_id
 
     def notify(self, player):
         self.winner = player

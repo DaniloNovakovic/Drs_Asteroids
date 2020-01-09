@@ -1,6 +1,6 @@
-import string
 import sys
 from datetime import datetime
+from multiprocessing import Queue, Process
 
 from PyQt5.QtWidgets import QApplication
 
@@ -16,14 +16,13 @@ from core.utils.heart_factory import HeartFactory
 from core.utils.player_factory import PlayerFactory
 from core.utils.spaceship_factory import SpaceshipFactory
 from entities.PlayerInput import PlayerInput
-from persistance.Storage import Storage
 
 
 class AsteroidsTournament:
     # TODO: Prosiri sa cim god hoces
-    def __init__(self, active_game, player_inputs=[], screen_width=1000, screen_height=600):
+    def __init__(self, queue: Queue, player_inputs=[], screen_width=1000, screen_height=600):
+        self.queue = queue
         self.screen = Screen(screen_width, screen_height, "Asteroids")
-        self.active_game = active_game
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
@@ -50,8 +49,7 @@ class AsteroidsTournament:
     def on_game_end(self, storage):
         players = storage.players
         winner = self.find_winner(players)
-        self.active_game.notify_winner(winner)
-        exit()
+        self.queue.put(winner.player_id)
 
     def find_winner(self, players):
         max_num_points = 0
@@ -67,11 +65,22 @@ class AsteroidsTournament:
         self.game.start()
 
 
-if __name__ == "__main__":
+def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color):
     app = QApplication(sys.argv)
-    asteroidsGame = AsteroidsTournament(player_inputs=[
-        PlayerInput(player_id="Steve", color="red"),
-        PlayerInput(player_id="Urkel", color="yellow")
-    ])
-    asteroidsGame.start()
+    game = AsteroidsTournament(
+        queue=queue,
+        player_inputs=[
+            PlayerInput(player_id=player1_id, color=player1_color),
+            PlayerInput(player_id=player2_id, color=player2_color)
+        ])
+    game.start()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    q = Queue()
+    process = Process(target=start_game, args=(q, "Steve", "red", "Urkel", "yellow"))
+    process.start()
+    winner_id = q.get()
+    print(winner_id)
+    process.kill()
