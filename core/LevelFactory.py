@@ -29,7 +29,7 @@ class LevelFactory:
     def create_new(self, level_number: int = 1, prev_storage: Storage = None) -> Storage:
         players = self._create_new_players() if prev_storage is None else prev_storage.players
         alive_players = list(filter(lambda player: not player.is_dead(), players))
-        spaceships = self._create_new_spaceships(players=alive_players)
+        spaceships = self._create_new_spaceships(players=alive_players, level_number=level_number)
         hearts = self._create_new_hearts()
         asteroids = self._create_new_asteroids(level_number)
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
@@ -53,7 +53,7 @@ class LevelFactory:
             index += 1
         return players
 
-    def _create_new_spaceships(self, players=[]):
+    def _create_new_spaceships(self, players=[], level_number=1):
         spaceships = []
         index = 0
         for player in players:
@@ -65,6 +65,7 @@ class LevelFactory:
                                                            player_id=player.player_id,
                                                            color=player.player_config.bullet_color,
                                                            x=x, y=y, angle=-180)
+            ship.increase_speed(factor=level_number)
             spaceships.append(ship)
             index += 1
         return spaceships
