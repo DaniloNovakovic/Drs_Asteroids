@@ -2,6 +2,7 @@ from math import sin, cos, radians
 
 MIN_VELOCITY = 0
 MAX_VELOCITY = 3
+MAX_SPEEDUP_FACTOR = 10
 
 
 class MovableObject:
@@ -10,6 +11,8 @@ class MovableObject:
         self.y = y
         self.velocity = velocity
         self.angle = angle
+        self.rotation_speed = 10
+        self.acceleration_speed = 0.1
 
     def move(self, elapsed_time: float):
         self.x = self.x + cos(radians(self.angle)) * self.velocity * elapsed_time
@@ -17,14 +20,20 @@ class MovableObject:
 
     def accelerate(self):
         if self.velocity < MAX_VELOCITY:
-            self.velocity = self.velocity + 0.1
+            self.velocity = self.velocity + self.acceleration_speed
 
     def decelerate(self):
         if self.velocity > MIN_VELOCITY:
-            self.velocity = self.velocity - 0.1
+            self.velocity = self.velocity - self.acceleration_speed
 
     def rotate_left(self):
-        self.angle = (self.angle - 10) % 360
+        self.angle = (self.angle - self.rotation_speed) % 360
 
     def rotate_right(self):
-        self.angle = (self.angle + 10) % 360
+        self.angle = (self.angle + self.rotation_speed) % 360
+
+    def increase_speed(self, factor=1):
+        if factor > MAX_SPEEDUP_FACTOR:
+            factor = MAX_SPEEDUP_FACTOR
+        self.rotation_speed += factor
+        self.acceleration_speed += factor / 10
