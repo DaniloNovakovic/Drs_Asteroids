@@ -1,6 +1,4 @@
-Vlada,100
-DAvid,1200
-Pera,57800
-Djura,0
-Steve,200
-VL,100
+Danilo:1700
+Vlada:300
+c:0
+dd:0

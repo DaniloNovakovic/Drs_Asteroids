@@ -134,9 +134,9 @@ class TournamentWindow(QMainWindow):
             msg.exec_()
 
         elif self.player1NameLineEdit.text() == self.player2NameLineEdit.text() or self.player1NameLineEdit.text() == self.player3NameLineEdit.text() \
-            or self.player1NameLineEdit.text() == self.player4NameLineEdit.text() or self.player2NameLineEdit.text() == self.player3NameLineEdit.text()\
-            or self.player2NameLineEdit.text() == self.player4NameLineEdit.text()\
-            or self.player3NameLineEdit.text() == self.player4NameLineEdit.text() :
+                or self.player1NameLineEdit.text() == self.player4NameLineEdit.text() or self.player2NameLineEdit.text() == self.player3NameLineEdit.text() \
+                or self.player2NameLineEdit.text() == self.player4NameLineEdit.text() \
+                or self.player3NameLineEdit.text() == self.player4NameLineEdit.text():
             msg = QMessageBox()
             msg.setIcon(QMessageBox.NoIcon)
             msg.setText("Username must be unique")

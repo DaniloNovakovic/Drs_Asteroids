@@ -22,7 +22,7 @@ from persistance.Storage import Storage
 def create_text_from_storage(storage):
     scores = []
     for player in storage.players:
-        scores.append(f"\n{player.player_id},{player.num_points}")
+        scores.append(f"{player.player_id}:{player.num_points}\n")
 
     text ="".join(scores)
     print(text)
