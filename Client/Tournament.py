@@ -16,7 +16,7 @@ def _start_game_process(q, player1_input, player2_input) -> str:
                                                player2_input.player_id, player2_input.color))
     process.start()
     winner_id = q.get()
-    process.kill()
+    process.terminate()
     return winner_id
 
 

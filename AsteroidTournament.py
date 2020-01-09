@@ -84,4 +84,4 @@ if __name__ == "__main__":
     process.start()
     winner_id = q.get()
     print(winner_id)
-    process.kill()
+    process.terminate()
