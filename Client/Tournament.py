@@ -124,14 +124,26 @@ class TournamentWindow(QMainWindow):
         self.playButton.clicked.connect(self.onPlayButtonClicked)
 
     def onPlayButtonClicked(self):
-       # if self.player1NameLineEdit.text()==""or self.player2NameLineEdit.text()=="" or self.player3NameLineEdit.text() == "" or self.player4NameLineEdit.text() == ""      \
-        #        or str(self.player1Cb.currentText()) == ""or str(self.player2Cb.currentText()) == "" or str(self.player3Cb.currentText()) == ""or str(self.player4Cb.currentText()) == "" :
-         #   msg = QMessageBox()
-          #  msg.setIcon(QMessageBox.NoIcon)
-           # msg.setText("Enter your username and choose ship")
-            #msg.setWindowTitle("Error")
-           # msg.exec_()
-       # else:
+        if self.player1NameLineEdit.text() == "" or self.player2NameLineEdit.text() == "" or self.player3NameLineEdit.text() == "" or self.player4NameLineEdit.text() == "" \
+                or str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "" or str(
+            self.player3Cb.currentText()) == "" or str(self.player4Cb.currentText()) == "":
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Enter your username and choose ship")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+
+        elif self.player1NameLineEdit.text() == self.player2NameLineEdit.text() or self.player1NameLineEdit.text() == self.player3NameLineEdit.text() \
+            or self.player1NameLineEdit.text() == self.player4NameLineEdit.text() or self.player2NameLineEdit.text() == self.player3NameLineEdit.text()\
+            or self.player2NameLineEdit.text() == self.player4NameLineEdit.text()\
+            or self.player3NameLineEdit.text() == self.player4NameLineEdit.text() :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Username must be unique")
+            msg.setWindowTitle("Error")
+            msg.exec_()
+
+        else:
 
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
             player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
@@ -141,6 +153,7 @@ class TournamentWindow(QMainWindow):
 
             self.game = AsteroidsGame(player_inputs=[player1_input, player2_input])
             self.game.start()
+
 
 def wi():
     app = QApplication(sys.argv)
