@@ -4,7 +4,7 @@ from time import sleep
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 
 from AsteroidTournament import AsteroidsTournament, start_game
 from core.utils.image_helper import get_full_image_path
@@ -127,27 +127,47 @@ class TournamentWindow(QMainWindow):
         self.playButton.clicked.connect(self.onPlayButtonClicked)
 
     def onPlayButtonClicked(self):
-        player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
-        player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
-        player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
-        player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
+        if self.player1NameLineEdit.text() == "" or self.player2NameLineEdit.text() == "" or self.player3NameLineEdit.text() == "" or self.player4NameLineEdit.text() == "" \
+                or str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "" or str(
+            self.player3Cb.currentText()) == "" or str(self.player4Cb.currentText()) == "":
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Enter your username and choose ship")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
-        player_by_id = dict()
-        player_by_id[player1_input.player_id] = player1_input
-        player_by_id[player2_input.player_id] = player2_input
-        player_by_id[player3_input.player_id] = player3_input
-        player_by_id[player4_input.player_id] = player4_input
+        elif self.player1NameLineEdit.text() == self.player2NameLineEdit.text() or self.player1NameLineEdit.text() == self.player3NameLineEdit.text() \
+                or self.player1NameLineEdit.text() == self.player4NameLineEdit.text() or self.player2NameLineEdit.text() == self.player3NameLineEdit.text() \
+                or self.player2NameLineEdit.text() == self.player4NameLineEdit.text() \
+                or self.player3NameLineEdit.text() == self.player4NameLineEdit.text():
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Username must be unique")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
-        q = Queue()
-        winner1_id = self._start_game_process(q, player1_input, player2_input)
-        print("Game 1 winner: ", winner1_id)
+        else:
+            player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+            player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
+            player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
+            player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
-        winner2_id = self._start_game_process(q, player3_input, player4_input)
-        print("Game 2 winner: ", winner2_id)
+            player_by_id = dict()
+            player_by_id[player1_input.player_id] = player1_input
+            player_by_id[player2_input.player_id] = player2_input
+            player_by_id[player3_input.player_id] = player3_input
+            player_by_id[player4_input.player_id] = player4_input
 
-        tournament_winner_id = self._start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id])
-        print(f"Tournament winner is: {tournament_winner_id}")
-        exit()
+            q = Queue()
+            winner1_id = self._start_game_process(q, player1_input, player2_input)
+            print("Game 1 winner: ", winner1_id)
+
+            winner2_id = self._start_game_process(q, player3_input, player4_input)
+            print("Game 2 winner: ", winner2_id)
+
+            tournament_winner_id = self._start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id])
+            print(f"Tournament winner is: {tournament_winner_id}")
+            exit()
 
     @staticmethod
     def _start_game_process(q, player1_input, player2_input) -> str:
