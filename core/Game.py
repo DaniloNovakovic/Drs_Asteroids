@@ -1,11 +1,15 @@
-from core.Screen import Screen
-from core.LevelFactory import LevelFactory
-from core.KeyHandler import KeyHandler
-from core.MovementHandler import MovementHandler
-from core.CollisionHandler import CollisionHandler
-from PyQt5.QtCore import QThread, pyqtSignal
 import time
 from datetime import datetime
+
+from PyQt5.QtCore import QThread, pyqtSignal
+
+from core.CollisionHandler import CollisionHandler
+from core.KeyHandler import KeyHandler
+from core.LevelFactory import LevelFactory
+from core.MovementHandler import MovementHandler
+from core.Screen import Screen
+
+POINTS_PER_LEVEL = 1000
 
 
 class CounterThread(QThread):
@@ -18,7 +22,7 @@ class CounterThread(QThread):
             time.sleep(float(1 / self.tick_frequency))
 
 
-def _exit_game():
+def _exit_game(_):
     exit()
 
 
@@ -47,11 +51,29 @@ class Game:
     def update(self, current_time: datetime):
         self.movement_handler.calculate_new_positions(storage=self.storage, current_time=current_time)
         self.collision_handler.handle(storage=self.storage)
-        self.new_level(self.game_level)
+
         if self._are_all_players_dead(self.storage.players):
             self.on_game_end(self.storage)
-            #self.update_thread.quit() TODO: exit thread
+            self._stop_threads()
+            return
 
+        if self._has_level_ended():
+            self.game_level += 1
+            self._increase_player_points(self.storage.get_alive_players())
+            self.storage = self.level_factory.create_new(self.game_level, self.storage)
+
+    def _stop_threads(self):
+        self.update_thread.game_tick.disconnect(self.update)
+        self.update_thread.quit()
+        self.screen.keyPressed.disconnect(self.on_key_pressed)
+
+    def _has_level_ended(self):
+        return len(self.storage.asteroids) == 0
+
+    @staticmethod
+    def _increase_player_points(players=[]):
+        for player in players:
+            player.increase_points(POINTS_PER_LEVEL)
 
     @staticmethod
     def _are_all_players_dead(players=[]):
@@ -59,17 +81,3 @@ class Game:
             if not player.is_dead():
                 return False
         return True
-
-    def new_level(self, game_level):
-        if len(self.storage.asteroids) == 0:
-            self.game_level = game_level + 1
-            for spacecraft in self.storage.spacecrafts:
-                spacecraft.destroy()
-            for bullet in self.storage.bullets:
-                bullet.destroy()
-            for heart in self.storage.hearts:
-                heart.destroy()
-            self.storage.spacecrafts.clear()
-            self.storage.bullets.clear()
-            self.storage.hearts.clear()
-            self.storage = self.level_factory.create_new(self.game_level, self.storage)

@@ -1,6 +1,6 @@
-import string
 import sys
 from datetime import datetime
+from multiprocessing import Queue, Process
 
 from PyQt5.QtWidgets import QApplication
 
@@ -16,33 +16,17 @@ from core.utils.heart_factory import HeartFactory
 from core.utils.player_factory import PlayerFactory
 from core.utils.spaceship_factory import SpaceshipFactory
 from entities.PlayerInput import PlayerInput
-from persistance.Storage import Storage
 
 
-def create_text_from_storage(storage):
-    scores = []
-    for player in storage.players:
-        scores.append(f"{player.player_id}:{player.num_points}\n")
-
-    text ="".join(scores)
-    print(text)
-    return text
-
-
-def save_score_to_file(storage: Storage):
-    print("saving to file..")
-    with open('test.txt', 'a') as f:
-        my_text = create_text_from_storage(storage)
-        f.write(my_text)
-    exit()
-
-
-class AsteroidsGame:
-    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600):
+class AsteroidsTournament:
+    # TODO: Prosiri sa cim god hoces
+    def __init__(self, queue: Queue, player_inputs=[], screen_width=1000, screen_height=600):
+        self.queue = queue
         self.screen = Screen(screen_width, screen_height, "Asteroids")
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
+        # todo: izmeni po potrebi sta ti treba
         spaceship_factory = SpaceshipFactory(screen=self.screen)
         asteroid_factory = AsteroidFactory(screen=self.screen)
         hearts_factory = HeartFactory(screen=self.screen)
@@ -60,18 +44,43 @@ class AsteroidsGame:
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
                          collision_handler=collision_handler, movement_handler=movement_handler,
-                         on_game_end=save_score_to_file)
+                         on_game_end=self.on_game_end)
+
+    def on_game_end(self, storage):
+        players = storage.players
+        winner = self.find_winner(players)
+        self.queue.put(winner.player_id)
+
+    def find_winner(self, players):
+        max_num_points = 0
+        winner_player = None
+        for player in players:
+            if player.num_points > max_num_points:
+                max_num_points = player.num_points
+                winner_player = player
+        return winner_player
 
     def start(self):
         self.screen.show()
         self.game.start()
 
 
-if __name__ == "__main__":
+def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color):
     app = QApplication(sys.argv)
-    asteroidsGame = AsteroidsGame(player_inputs=[
-        PlayerInput(player_id="Steve", color="red"),
-        PlayerInput(player_id="Urkel", color="yellow")
-    ])
-    asteroidsGame.start()
+    game = AsteroidsTournament(
+        queue=queue,
+        player_inputs=[
+            PlayerInput(player_id=player1_id, color=player1_color),
+            PlayerInput(player_id=player2_id, color=player2_color)
+        ])
+    game.start()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    q = Queue()
+    process = Process(target=start_game, args=(q, "Steve", "red", "Urkel", "yellow"))
+    process.start()
+    winner_id = q.get()
+    print(winner_id)
+    process.kill()

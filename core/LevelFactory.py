@@ -27,24 +27,28 @@ class LevelFactory:
         self.player_inputs = player_inputs
 
     def create_new(self, level_number: int = 1, prev_storage: Storage = None) -> Storage:
-        asteroids = []
+        if prev_storage is not None:
+            self._clear_previous_level(prev_storage)
 
         players = self._create_new_players() if prev_storage is None else prev_storage.players
-        spaceships = self._create_new_spaceships()
+        alive_players = list(filter(lambda player: not player.is_dead(), players))
+        spaceships = self._create_new_spaceships(players=alive_players, level_number=level_number)
         hearts = self._create_new_hearts()
-
-        if level_number == 1:
-            asteroids = self._create_new_asteroids(num_asteroids=level_number + 5)
-        elif level_number == 2:
-            asteroids = self._create_new_asteroids2(num_asteroids=level_number + 6)
-        elif level_number == 3:
-            asteroids = self._create_new_asteroids3(num_asteroids=level_number + 6)
-        elif level_number == 4:
-            asteroids = self._create_new_asteroids4(num_asteroids=level_number + 8)
-        elif level_number == 5:
-            asteroids = self._create_new_asteroids5(num_asteroids=level_number + 7)
+        asteroids = self._create_new_asteroids(level_number)
 
         return Storage(asteroids=asteroids, players=players, spacecrafts=spaceships, hearts=hearts)
+
+    @staticmethod
+    def _clear_previous_level(prev_storage):
+        for spacecraft in prev_storage.spacecrafts:
+            spacecraft.destroy()
+        for bullet in prev_storage.bullets:
+            bullet.destroy()
+        for heart in prev_storage.hearts:
+            heart.destroy()
+        prev_storage.spacecrafts.clear()
+        prev_storage.bullets.clear()
+        prev_storage.hearts.clear()
 
     def _create_new_players(self) -> list:
         """
@@ -60,33 +64,46 @@ class LevelFactory:
                                       , key_up=Qt.Key_W, key_shoot=Qt.Key_Control, bullet_color=player_input.color)
             player = self.player_factory.create_player(player_id=player_input.player_id,
                                                        spaceship_id=player_input.player_id, player_config=config,
-                                                       status_x=0, status_y=index*15)
+                                                       status_x=0, status_y=index * 15)
             players.append(player)
             index += 1
         return players
 
-    def _create_new_spaceships(self):
+    def _create_new_spaceships(self, players=[], level_number=1):
         spaceships = []
         index = 0
-        for player_input in self.player_inputs:
+        for player in players:
             x = (self.screen_width / 2 - 50)
             y = (self.screen_height / 2)
             if index > 0:
                 x = (self.screen_width / 2 + 50)
-            ship = self.spaceship_factory.create_spaceship(spaceship_id=player_input.player_id,
-                                                           player_id=player_input.player_id,
-                                                           color=player_input.color,
+            ship = self.spaceship_factory.create_spaceship(spaceship_id=player.player_id,
+                                                           player_id=player.player_id,
+                                                           color=player.player_config.bullet_color,
                                                            x=x, y=y, angle=-180)
+            ship.increase_speed(factor=level_number)
             spaceships.append(ship)
             index += 1
         return spaceships
 
-    def _create_new_hearts(self):  # srca koja mogu da se pokupe
+    def _create_new_hearts(self):
         heart1 = self.heart_factory.create_heart('1', x=150 + randint(-100, 100), y=150 + randint(-100, 100))
         heart2 = self.heart_factory.create_heart('2', x=300 + randint(-100, 100), y=300 + randint(-100, 100))
         return [heart1, heart2]
 
-    def _create_new_asteroids(self, num_asteroids: int = 1) -> list:
+    def _create_new_asteroids(self, level_number: int):
+        if level_number == 1:
+            return self._create_new_asteroids1()
+        elif level_number == 2:
+            return self._create_new_asteroids2()
+        elif level_number == 3:
+            return self._create_new_asteroids3()
+        elif level_number == 4:
+            return self._create_new_asteroids4()
+        else:
+            return self._create_new_asteroids5()
+
+    def _create_new_asteroids1(self, num_asteroids: int = 5) -> list:
         asteroids = []
         for _ in range(num_asteroids):
             # TODO: Randomize x,y and velocity for asteroid based on screen_width & screen_height so that they come
@@ -98,7 +115,7 @@ class LevelFactory:
             asteroids.append(asteroid)
         return asteroids
 
-    def _create_new_asteroids2(self, num_asteroids: int = 1) -> list:
+    def _create_new_asteroids2(self) -> list:
         asteroids = []
         for _ in range(0, 4):
             asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
@@ -115,7 +132,7 @@ class LevelFactory:
             asteroids.append(asteroid)
         return asteroids
 
-    def _create_new_asteroids3(self, num_asteroids: int = 1) -> list:
+    def _create_new_asteroids3(self) -> list:
         asteroids = []
         for _ in range(0, 3):
             asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
@@ -139,7 +156,7 @@ class LevelFactory:
             asteroids.append(asteroid)
         return asteroids
 
-    def _create_new_asteroids4(self, num_asteroids: int = 1) -> list:
+    def _create_new_asteroids4(self) -> list:
         asteroids = []
         for _ in range(0, 3):
             asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
@@ -170,7 +187,7 @@ class LevelFactory:
             asteroids.append(asteroid)
         return asteroids
 
-    def _create_new_asteroids5(self, num_asteroids: int = 1) -> list:
+    def _create_new_asteroids5(self) -> list:
         asteroids = []
         for _ in range(0, 3):
             asteroid = self.asteroid_factory.create_asteroid(asteroid_type=randint(0, 2))
@@ -200,3 +217,4 @@ class LevelFactory:
             asteroid.angle = 270
             asteroids.append(asteroid)
         return asteroids
+
