@@ -50,6 +50,7 @@ class AsteroidsTournament:
         players = storage.players
         winner = self.find_winner(players)
         self.queue.put(winner.player_id)
+        self.queue.close()
 
     def find_winner(self, players):
         max_num_points = 0
