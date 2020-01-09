@@ -51,6 +51,7 @@ class AsteroidsTournament:
         players = storage.players
         winner = self.find_winner(players)
         self.active_game.notify_winner(winner)
+        exit()
 
     def find_winner(self, players):
         max_num_points = 0
