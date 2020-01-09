@@ -133,7 +133,7 @@ class TournamentWindow(QMainWindow):
         player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
         finale_players = []
-        self.game = AsteroidsTournament(player_inputs=[player1_input, player2_input])
+        self.game = AsteroidsTournament(active_game=self, player_inputs=[player1_input, player2_input])
         self.game.start()
 
         # Cekanje na prvog pobednika
@@ -142,7 +142,7 @@ class TournamentWindow(QMainWindow):
         finale_players.append(self.winner)
         self.winner = None
 
-        self.game = AsteroidsTournament(player_inputs=[player3_input, player4_input])
+        self.game = AsteroidsTournament(active_game=self, player_inputs=[player3_input, player4_input])
         self.game.start()
 
         # cekanje na drugog pobednika
@@ -152,7 +152,7 @@ class TournamentWindow(QMainWindow):
         self.winner = None
 
         # Finale
-        self.game = AsteroidsTournament(player_inputs=finale_players)
+        self.game = AsteroidsTournament(active_game=self, player_inputs=finale_players)
         self.game.start()
 
     def notify(self, player):

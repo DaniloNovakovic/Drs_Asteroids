@@ -21,8 +21,9 @@ from persistance.Storage import Storage
 
 class AsteroidsTournament:
     # TODO: Prosiri sa cim god hoces
-    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600):
+    def __init__(self, active_game, player_inputs=[], screen_width=1000, screen_height=600):
         self.screen = Screen(screen_width, screen_height, "Asteroids")
+        self.active_game = active_game
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
@@ -49,11 +50,16 @@ class AsteroidsTournament:
     def on_game_end(self, storage):
         players = storage.players
         winner = self.find_winner(players)
-        # npr. self.notify_winner(winner)
+        self.active_game.notify_winner(winner)
 
     def find_winner(self, players):
-        # return winner from players
-        pass
+        max_num_points = 0
+        winner_player = None
+        for player in players:
+            if player.num_points > max_num_points:
+                max_num_points = player.num_points
+                winner_player = player
+        return winner_player
 
     def start(self):
         self.screen.show()
