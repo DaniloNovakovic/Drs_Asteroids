@@ -54,6 +54,9 @@ class Storage:
                 return player
         raise Exception(f"Player with spaceship{spaceship.spaceship_id} not found!")
 
+    def get_alive_players(self) -> list:
+        return list(filter(lambda player: not player.is_dead(), self.players))
+
     '''Object generators'''
 
     def add_bullet(self, bullet: Bullet):
