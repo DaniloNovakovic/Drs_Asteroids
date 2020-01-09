@@ -7,15 +7,16 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from Client.MultiPlayer import MultiPlayerWindow
 from Client.SinglePlayer import SinglePlayerWindow
 from Client.Tournament import TournamentWindow
-from Client.Scores import Score
+from Client.Scores import ScoreWindow
 from core.utils.image_helper import get_full_image_path
 
 
 class MyWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self,scoreFilePath):
         super().__init__()
         self.setGeometry(200, 200, 1000, 600)
         self.setWindowTitle("Menu")
+        self.scoreFilePath =scoreFilePath
         self.initUI()
 
     def initUI(self):
@@ -47,13 +48,13 @@ class MyWindow(QMainWindow):
         self.b2.clicked.connect(self.on_push_button3)
         self.dialog3 = TournamentWindow()
 
-        self.b2 = QtWidgets.QPushButton(self)
-        self.b2.setText("SCORE")
-        self.b2.setGeometry(400, 400, 250, 50)
-        self.b2.setStyleSheet(
+        self.b23 = QtWidgets.QPushButton(self)
+        self.b23.setText("SCORE")
+        self.b23.setGeometry(400, 400, 250, 50)
+        self.b23.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
-        self.b2.clicked.connect(self.on_push_button4)
-        self.dialog4 = Score()
+        self.b23.clicked.connect(self.on_push_button4)
+        self.dialog4 = ScoreWindow(scoreFilePath=self.scoreFilePath)
 
         self.b3 = QtWidgets.QPushButton(self)
         self.b3.setText("EXIT")
@@ -85,13 +86,13 @@ class MyWindow(QMainWindow):
         app.closeAllWindows()
 
 
-def display_menu():
+def display_menu(scoreFilePath):
     app = QApplication(sys.argv)
-    win = MyWindow()
+    win = MyWindow(scoreFilePath)
 
     win.show()
     sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
-    display_menu()
+    display_menu("../test.txt")
