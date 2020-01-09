@@ -54,7 +54,13 @@ class Game:
 
         if self._are_all_players_dead(self.storage.players):
             self.on_game_end(self.storage)
-            #self.update_thread.quit() TODO: exit thread
+            self._stop_threads()
+            return
+
+        if self._has_level_ended():
+            self.game_level += 1
+            self._increase_player_points(self.storage.get_alive_players())
+            self.storage = self.level_factory.create_new(self.game_level, self.storage)
 
     def _stop_threads(self):
         self.update_thread.game_tick.disconnect(self.update)
