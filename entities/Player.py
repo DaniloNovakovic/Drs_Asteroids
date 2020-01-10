@@ -7,14 +7,12 @@ from entities.PlayerStatus import PlayerStatus
 
 class Player:
     def __init__(self, player_id: str, spaceship_id: str, player_config: PlayerConfig = None,
-                 player_status: PlayerStatus = None, num_points: int = 0
-                 , num_lives: int = 3, screen: QWidget = None):
+                 player_status: PlayerStatus = None, num_points: int = 0, num_lives: int = 3):
         self.player_id = player_id
         self.spaceship_id = spaceship_id
         self.num_points = num_points
         self.num_lives = num_lives
         self.player_config = player_config
-        self.screen = screen
         self.status = player_status
         self.update_status()
 

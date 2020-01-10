@@ -1,4 +1,3 @@
-import string
 import sys
 from datetime import datetime
 
@@ -24,7 +23,7 @@ def create_text_from_storage(storage):
     for player in storage.players:
         scores.append(f"{player.player_id}:{player.num_points}\n")
 
-    text ="".join(scores)
+    text = "".join(scores)
     print(text)
     return text
 
@@ -34,12 +33,11 @@ def save_score_to_file(storage: Storage):
     with open('test.txt', 'a') as f:
         my_text = create_text_from_storage(storage)
         f.write(my_text)
-    exit()
 
 
 class AsteroidsGame:
-    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600):
-        self.screen = Screen(screen_width, screen_height, "Asteroids")
+    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600, title="Asteroids"):
+        self.screen = Screen(screen_width, screen_height, title)
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
@@ -60,7 +58,15 @@ class AsteroidsGame:
 
         self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
                          collision_handler=collision_handler, movement_handler=movement_handler,
-                         on_game_end=save_score_to_file)
+                         on_game_end=self.on_game_end)
+
+    def on_game_end(self, storage):
+        winner = storage.get_player_with_most_points()
+        self.screen.display_winner(winner=winner, on_end=lambda: self._handle_end_click(storage))
+
+    def _handle_end_click(self, storage):
+        save_score_to_file(storage)
+        exit()
 
     def start(self):
         self.screen.show()
