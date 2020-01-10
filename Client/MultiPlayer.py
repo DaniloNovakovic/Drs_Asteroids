@@ -108,7 +108,7 @@ class MultiPlayerWindow(QMainWindow):
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
             player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
 
-            self.game = AsteroidsGame(player_inputs=[player1_input, player2_input])
+            self.game = AsteroidsGame(player_inputs=[player1_input, player2_input], title="Asteroids - MultiPlayer")
             self.game.start()
 
 

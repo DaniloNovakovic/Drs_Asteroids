@@ -11,9 +11,10 @@ from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
 
 
-def _start_game_process(q, player1_input, player2_input) -> str:
+def _start_game_process(q, player1_input, player2_input, title="Tournament") -> str:
     process = Process(target=start_game, args=(q, player1_input.player_id, player1_input.color,
-                                               player2_input.player_id, player2_input.color))
+                                               player2_input.player_id, player2_input.color,
+                                               title))
     process.start()
     winner_id = q.get()
     process.terminate()
@@ -28,13 +29,14 @@ def _start_tournament(player1_input, player2_input, player3_input, player4_input
     player_by_id[player4_input.player_id] = player4_input
 
     q = Queue()
-    winner1_id = _start_game_process(q, player1_input, player2_input)
+    winner1_id = _start_game_process(q, player1_input, player2_input, "Tournament - Game 1")
     print("Game 1 winner: ", winner1_id)
 
-    winner2_id = _start_game_process(q, player3_input, player4_input)
+    winner2_id = _start_game_process(q, player3_input, player4_input, "Tournament - Game 2")
     print("Game 2 winner: ", winner2_id)
 
-    tournament_winner_id = _start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id])
+    tournament_winner_id = _start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id],
+                                               "Tournament - Finale")
     print(f"Tournament winner is: {tournament_winner_id}")
     exit()
 

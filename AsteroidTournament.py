@@ -20,9 +20,9 @@ from entities.PlayerInput import PlayerInput
 
 class AsteroidsTournament:
     # TODO: Prosiri sa cim god hoces
-    def __init__(self, queue: Queue, player_inputs=[], screen_width=1000, screen_height=600):
+    def __init__(self, queue: Queue, player_inputs=[], screen_width=1000, screen_height=600, title="Asteroids"):
         self.queue = queue
-        self.screen = Screen(screen_width, screen_height, "Asteroids")
+        self.screen = Screen(screen_width, screen_height, title)
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
@@ -56,14 +56,14 @@ class AsteroidsTournament:
         self.game.start()
 
 
-def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color):
+def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color, title="Tournament"):
     app = QApplication(sys.argv)
     game = AsteroidsTournament(
         queue=queue,
         player_inputs=[
             PlayerInput(player_id=player1_id, color=player1_color),
             PlayerInput(player_id=player2_id, color=player2_color)
-        ])
+        ], title=title)
     game.start()
     sys.exit(app.exec_())
 

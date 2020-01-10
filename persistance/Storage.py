@@ -61,7 +61,7 @@ class Storage:
         max_num_points = 0
         winner_player = None
         for player in self.players:
-            if player.num_points > max_num_points:
+            if player.num_points >= max_num_points:
                 max_num_points = player.num_points
                 winner_player = player
         return winner_player

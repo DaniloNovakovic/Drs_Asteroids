@@ -74,7 +74,7 @@ class SinglePlayerWindow(QMainWindow):
 
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
 
-            self.game = AsteroidsGame(player_inputs=[player1_input])
+            self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - SinglePlayer")
             self.game.start()
 
 def wi():
