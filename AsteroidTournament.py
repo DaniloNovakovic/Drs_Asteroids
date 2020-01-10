@@ -47,19 +47,9 @@ class AsteroidsTournament:
                          on_game_end=self.on_game_end)
 
     def on_game_end(self, storage):
-        players = storage.players
-        winner = self.find_winner(players)
+        winner = storage.get_player_with_most_points()
         self.queue.put(winner.player_id)
         self.queue.close()
-
-    def find_winner(self, players):
-        max_num_points = 0
-        winner_player = None
-        for player in players:
-            if player.num_points > max_num_points:
-                max_num_points = player.num_points
-                winner_player = player
-        return winner_player
 
     def start(self):
         self.screen.show()
@@ -83,5 +73,5 @@ if __name__ == "__main__":
     process = Process(target=start_game, args=(q, "Steve", "red", "Urkel", "yellow"))
     process.start()
     winner_id = q.get()
-    print(winner_id)
+    print(f"Winner: {winner_id}")
     process.terminate()

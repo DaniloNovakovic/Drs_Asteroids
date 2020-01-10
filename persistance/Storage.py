@@ -57,6 +57,15 @@ class Storage:
     def get_alive_players(self) -> list:
         return list(filter(lambda player: not player.is_dead(), self.players))
 
+    def get_player_with_most_points(self) -> Player:
+        max_num_points = 0
+        winner_player = None
+        for player in self.players:
+            if player.num_points > max_num_points:
+                max_num_points = player.num_points
+                winner_player = player
+        return winner_player
+
     '''Object generators'''
 
     def add_bullet(self, bullet: Bullet):
