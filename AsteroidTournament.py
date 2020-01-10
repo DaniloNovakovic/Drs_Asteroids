@@ -14,6 +14,9 @@ class AsteroidsTournament(AsteroidsGame):
 
     def on_game_end(self, storage):
         winner = storage.get_player_with_most_points()
+        self.screen.display_winner(winner=winner, on_end=lambda: self._notify_winner(winner))
+
+    def _notify_winner(self, winner):
         self.queue.put(winner.player_id)
         self.queue.close()
 
