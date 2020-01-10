@@ -1,62 +1,54 @@
 import sys
-from datetime import datetime
 from multiprocessing import Queue, Process
 
 from PyQt5.QtWidgets import QApplication
 
-from core.CollisionHandler import CollisionHandler
-from core.Game import Game
-from core.KeyHandler import KeyHandler
-from core.LevelFactory import LevelFactory
-from core.MovementHandler import MovementHandler
-from core.Screen import Screen
-from core.utils.asteroid_factory import AsteroidFactory
-from core.utils.bullet_factory import BulletFactory
-from core.utils.heart_factory import HeartFactory
-from core.utils.player_factory import PlayerFactory
-from core.utils.spaceship_factory import SpaceshipFactory
+from AsteroidsGame import AsteroidsGame
 from entities.PlayerInput import PlayerInput
 
 
-class AsteroidsTournament:
-    # TODO: Prosiri sa cim god hoces
+class AsteroidsTournament(AsteroidsGame):
     def __init__(self, queue: Queue, player_inputs=[], screen_width=1000, screen_height=600, title="Asteroids"):
         self.queue = queue
-        self.screen = Screen(screen_width, screen_height, title)
-
-        '''Dependency injection - here you can inject handlers/services into constructor'''
-
-        # todo: izmeni po potrebi sta ti treba
-        spaceship_factory = SpaceshipFactory(screen=self.screen)
-        asteroid_factory = AsteroidFactory(screen=self.screen)
-        hearts_factory = HeartFactory(screen=self.screen)
-        player_factory = PlayerFactory(screen=self.screen)
-        level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height,
-                                     asteroid_factory=asteroid_factory,
-                                     spaceship_factory=spaceship_factory,
-                                     heart_factory=hearts_factory,
-                                     player_factory=player_factory,
-                                     player_inputs=player_inputs)
-        bullet_factory = BulletFactory(screen=self.screen)
-        key_handler = KeyHandler(bullet_factory=bullet_factory)
-        movement_handler = MovementHandler(datetime.now(), screen_width, screen_height)
-        collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
-
-        self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
-                         collision_handler=collision_handler, movement_handler=movement_handler,
-                         on_game_end=self.on_game_end)
+        super().__init__(player_inputs, screen_width, screen_height, title)
 
     def on_game_end(self, storage):
         winner = storage.get_player_with_most_points()
         self.queue.put(winner.player_id)
         self.queue.close()
 
-    def start(self):
-        self.screen.show()
-        self.game.start()
+
+def start_tournament(player1_input, player2_input, player3_input, player4_input):
+    player_by_id = dict()
+    player_by_id[player1_input.player_id] = player1_input
+    player_by_id[player2_input.player_id] = player2_input
+    player_by_id[player3_input.player_id] = player3_input
+    player_by_id[player4_input.player_id] = player4_input
+
+    q = Queue()
+    winner1_id = _start_game_process(q, player1_input, player2_input, "Tournament - Game 1")
+    print("Game 1 winner: ", winner1_id)
+
+    winner2_id = _start_game_process(q, player3_input, player4_input, "Tournament - Game 2")
+    print("Game 2 winner: ", winner2_id)
+
+    tournament_winner_id = _start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id],
+                                               "Tournament - Finale")
+    print(f"Tournament winner is: {tournament_winner_id}")
+    exit()
 
 
-def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color, title="Tournament"):
+def _start_game_process(q, player1_input, player2_input, title="Tournament") -> str:
+    process = Process(target=_start_game, args=(q, player1_input.player_id, player1_input.color,
+                                                player2_input.player_id, player2_input.color,
+                                                title))
+    process.start()
+    winner_id = q.get()
+    process.terminate()
+    return winner_id
+
+
+def _start_game(queue: Queue, player1_id, player1_color, player2_id, player2_color, title="Tournament"):
     app = QApplication(sys.argv)
     game = AsteroidsTournament(
         queue=queue,
@@ -69,9 +61,7 @@ def start_game(queue: Queue, player1_id, player1_color, player2_id, player2_colo
 
 
 if __name__ == "__main__":
-    q = Queue()
-    process = Process(target=start_game, args=(q, "Steve", "red", "Urkel", "yellow"))
-    process.start()
-    winner_id = q.get()
-    print(f"Winner: {winner_id}")
-    process.terminate()
+    start_tournament(player1_input=PlayerInput("A", "red"),
+                     player2_input=PlayerInput("B", "yellow"),
+                     player3_input=PlayerInput("C", "green"),
+                     player4_input=PlayerInput("D", "blue"))

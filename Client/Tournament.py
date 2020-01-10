@@ -1,44 +1,13 @@
 import sys
-from multiprocessing import Queue, Process
 from threading import Thread
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 
-from AsteroidTournament import start_game
+from AsteroidTournament import start_tournament
 from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
-
-
-def _start_game_process(q, player1_input, player2_input, title="Tournament") -> str:
-    process = Process(target=start_game, args=(q, player1_input.player_id, player1_input.color,
-                                               player2_input.player_id, player2_input.color,
-                                               title))
-    process.start()
-    winner_id = q.get()
-    process.terminate()
-    return winner_id
-
-
-def _start_tournament(player1_input, player2_input, player3_input, player4_input):
-    player_by_id = dict()
-    player_by_id[player1_input.player_id] = player1_input
-    player_by_id[player2_input.player_id] = player2_input
-    player_by_id[player3_input.player_id] = player3_input
-    player_by_id[player4_input.player_id] = player4_input
-
-    q = Queue()
-    winner1_id = _start_game_process(q, player1_input, player2_input, "Tournament - Game 1")
-    print("Game 1 winner: ", winner1_id)
-
-    winner2_id = _start_game_process(q, player3_input, player4_input, "Tournament - Game 2")
-    print("Game 2 winner: ", winner2_id)
-
-    tournament_winner_id = _start_game_process(q, player_by_id[winner1_id], player_by_id[winner2_id],
-                                               "Tournament - Finale")
-    print(f"Tournament winner is: {tournament_winner_id}")
-    exit()
 
 
 class TournamentWindow(QMainWindow):
@@ -185,7 +154,7 @@ class TournamentWindow(QMainWindow):
             player3_input = PlayerInput(player_id=self.player3NameLineEdit.text(), color=self.player3Cb.currentText())
             player4_input = PlayerInput(player_id=self.player4NameLineEdit.text(), color=self.player4Cb.currentText())
 
-            thread = Thread(target=_start_tournament, args=(player1_input, player2_input, player3_input, player4_input))
+            thread = Thread(target=start_tournament, args=(player1_input, player2_input, player3_input, player4_input))
             thread.daemon = True
             thread.start()
 
