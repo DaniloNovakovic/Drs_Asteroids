@@ -3,3 +3,5 @@ Vlada:300
 c:0
 dd:0
 asd:14200
+ffff:1300
+ss:2950

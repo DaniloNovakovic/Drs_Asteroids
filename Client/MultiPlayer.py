@@ -22,6 +22,8 @@ class MultiPlayerWindow(QMainWindow):
         self.chooseShip()
         self.labels()
         self.buttonPlay()
+        self.buttonCreateOnline()
+        self.buttonConnect()
 
     def initWindow(self):
         self.BackGround = QPixmap(get_full_image_path("galaxy.jpg"))
@@ -81,11 +83,25 @@ class MultiPlayerWindow(QMainWindow):
 
     def buttonPlay(self):
         self.playButton = QtWidgets.QPushButton(self)
-        self.playButton.setText("PLAY")
+        self.playButton.setText("PLAY LOCAL")
         self.playButton.setGeometry(750, 400, 200, 50)
         self.playButton.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
         self.playButton.clicked.connect(self.onPlayButtonClicked)
+
+    def buttonCreateOnline(self):
+        self.onlineButton = QtWidgets.QPushButton(self)
+        self.onlineButton.setText("CREATE ONLINE")
+        self.onlineButton.setGeometry(750, 300, 200, 50)
+        self.onlineButton.setStyleSheet(
+            "border:2px solid rgb(120, 20, 60); color: blue;font-size: 22px; font-family: Arial Black;");
+
+    def buttonConnect(self):
+        self.connectButton = QtWidgets.QPushButton(self)
+        self.connectButton.setText("CONNECT")
+        self.connectButton.setGeometry(750, 350, 200, 50)
+        self.connectButton.setStyleSheet(
+            "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
 
     def onPlayButtonClicked(self):
         if self.player1NameLineEdit.text() == "" or self.player2NameLineEdit.text() == "" or str(
