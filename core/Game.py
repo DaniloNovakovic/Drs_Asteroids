@@ -14,7 +14,7 @@ POINTS_PER_LEVEL = 1000
 
 class CounterThread(QThread):
     game_tick = pyqtSignal(datetime)
-    tick_frequency = 10
+    tick_frequency = 50
 
     def run(self):
         while 1:
