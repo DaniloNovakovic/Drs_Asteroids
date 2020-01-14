@@ -2,3 +2,4 @@ Danilo:1700
 Vlada:300
 c:0
 dd:0
+asd:14200
