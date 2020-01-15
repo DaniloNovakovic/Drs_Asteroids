@@ -1,4 +1,4 @@
-from random import randint, random, seed
+from random import randint, Random, seed
 
 from datetime import datetime
 from PyQt5.QtWidgets import QWidget
@@ -10,8 +10,8 @@ from core.utils.image_helper import get_full_image_path
 
 class AsteroidFactory:
     def __init__(self, screen: QWidget, rand_seed=datetime.now()):
+        self.random_gen = Random(3)
         self.screen = screen
-        random.seed(rand_seed)
 
     def create_asteroid(self, asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:
         if asteroid_type == AsteroidSize.small:
@@ -40,10 +40,9 @@ class AsteroidFactory:
                 x=asteroid.x,
                 y=asteroid.y,
                 velocity=asteroid.velocity * velocity_increase,
-                angle=_randomize_angle(asteroid.angle)
+                angle=self.randomize_angle(asteroid.angle)
             ))
         return new_asteroids
 
-
-def _randomize_angle(angle: float) -> float:
-    return angle + randint(-180, 180)  # TODO: Increase randomness of this function
+    def randomize_angle(self, angle: float) -> float:
+        return angle + self.random_gen.randint(-180, 180)  # TODO: Increase randomness of this function

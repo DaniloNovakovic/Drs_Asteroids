@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
@@ -91,14 +92,14 @@ class MultiPlayerWindow(QMainWindow):
 
     def buttonCreateOnline(self):
         self.onlineButton = QtWidgets.QPushButton(self)
-        self.onlineButton.setText("CREATE ONLINE")
+        self.onlineButton.setText("CREATE GAME")
         self.onlineButton.setGeometry(750, 300, 200, 50)
         self.onlineButton.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 22px; font-family: Arial Black;");
 
     def buttonConnect(self):
         self.connectButton = QtWidgets.QPushButton(self)
-        self.connectButton.setText("CONNECT")
+        self.connectButton.setText("JOIN GAME")
         self.connectButton.setGeometry(750, 350, 200, 50)
         self.connectButton.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 26px; font-family: Arial Black;");
