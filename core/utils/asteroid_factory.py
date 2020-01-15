@@ -1,5 +1,6 @@
-from random import randint
+from random import randint, random, seed
 
+from datetime import datetime
 from PyQt5.QtWidgets import QWidget
 
 from entities.Asteroid import Asteroid
@@ -8,8 +9,9 @@ from core.utils.image_helper import get_full_image_path
 
 
 class AsteroidFactory:
-    def __init__(self, screen: QWidget):
+    def __init__(self, screen: QWidget, rand_seed=datetime.now()):
         self.screen = screen
+        random.seed(rand_seed)
 
     def create_asteroid(self, asteroid_type: AsteroidSize, x=0, y=0, velocity: float = 1, angle: float = 0) -> Asteroid:
         if asteroid_type == AsteroidSize.small:
