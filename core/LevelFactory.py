@@ -14,11 +14,11 @@ from persistance.Storage import Storage
 class LevelFactory:
     def __init__(self, screen_width, screen_height, asteroid_factory: AsteroidFactory,
                  spaceship_factory: SpaceshipFactory, heart_factory: HeartFactory,
-                 player_factory: PlayerFactory, player_inputs=None, rand_seed=None):
+                 player_factory: PlayerFactory, player_inputs=None, seed=None):
         if player_inputs is None:
             player_inputs = [PlayerInput(player_id="1", color="red")]
 
-        self.rand_gen = Random(rand_seed)
+        self.rand_gen = Random(seed)
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.asteroid_factory = asteroid_factory

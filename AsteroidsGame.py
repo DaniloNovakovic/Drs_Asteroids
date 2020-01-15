@@ -36,13 +36,13 @@ def save_score_to_file(storage: Storage):
 
 
 class AsteroidsGame:
-    def __init__(self, player_inputs=[], rand_seed=datetime.now(), screen_width=1000, screen_height=600, title="Asteroids"):
+    def __init__(self, player_inputs=[], screen_width=1000, screen_height=600, title="Asteroids"):
         self.screen = Screen(screen_width, screen_height, title)
 
         '''Dependency injection - here you can inject handlers/services into constructor'''
 
         spaceship_factory = SpaceshipFactory(screen=self.screen)
-        asteroid_factory = AsteroidFactory(screen=self.screen, rand_seed=rand_seed)
+        asteroid_factory = AsteroidFactory(screen=self.screen)
         hearts_factory = HeartFactory(screen=self.screen)
         player_factory = PlayerFactory(screen=self.screen)
         level_factory = LevelFactory(screen_width=screen_width, screen_height=screen_height,

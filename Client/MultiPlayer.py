@@ -96,6 +96,7 @@ class MultiPlayerWindow(QMainWindow):
         self.onlineButton.setGeometry(750, 300, 200, 50)
         self.onlineButton.setStyleSheet(
             "border:2px solid rgb(120, 20, 60); color: blue;font-size: 22px; font-family: Arial Black;");
+        self.onlineButton.clicked.connect(self.onCreateButtonClicked)
 
     def buttonConnect(self):
         self.connectButton = QtWidgets.QPushButton(self)
@@ -128,7 +129,19 @@ class MultiPlayerWindow(QMainWindow):
             self.game = AsteroidsGame(player_inputs=[player1_input, player2_input], title="Asteroids - MultiPlayer")
             self.game.start()
 
+    def onCreateButtonClicked(self):
+        if self.player1NameLineEdit.text() == ""  or str(self.player1Cb.currentText()) == "" :
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText("Enter your username and choose ship")
+            msg.setWindowTitle("Error")
+            msg.exec_()
 
+        else:
+            player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
+
+            self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - Client")
+            self.game.start()
 def wi():
     app = QApplication(sys.argv)
     win = MultiPlayerWindow()
