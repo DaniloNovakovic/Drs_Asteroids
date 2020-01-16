@@ -6,8 +6,10 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 
 from AsteroidsGame import AsteroidsGame
+from ClientGame import ClientAsteroidsGame
 from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
+from Communication.Server import Server
 
 
 class MultiPlayerWindow(QMainWindow):
@@ -130,7 +132,7 @@ class MultiPlayerWindow(QMainWindow):
             self.game.start()
 
     def onCreateButtonClicked(self):
-        if self.player1NameLineEdit.text() == ""  or str(self.player1Cb.currentText()) == "" :
+        if self.player1NameLineEdit.text() == "" or str(self.player1Cb.currentText()) == "":
             msg = QMessageBox()
             msg.setIcon(QMessageBox.NoIcon)
             msg.setText("Enter your username and choose ship")
@@ -140,8 +142,12 @@ class MultiPlayerWindow(QMainWindow):
         else:
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
 
-            self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - Client")
+            self.server = Server(5)
+
+            self.game = ClientAsteroidsGame('seed', player_inputs=[player1_input], title="Asteroids - Client")
             self.game.start()
+
+
 def wi():
     app = QApplication(sys.argv)
     win = MultiPlayerWindow()

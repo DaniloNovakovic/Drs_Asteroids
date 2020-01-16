@@ -8,6 +8,7 @@ from core.Game import Game
 from core.KeyHandler import KeyHandler
 from core.LevelFactory import LevelFactory
 from core.MovementHandler import MovementHandler
+from core.OnlineGame import OnlineGame
 from core.Screen import Screen
 from core.utils.asteroid_factory import AsteroidFactory
 from core.utils.bullet_factory import BulletFactory
@@ -57,7 +58,7 @@ class ClientAsteroidsGame:
         movement_handler = MovementHandler(datetime.now(), screen_width, screen_height)
         collision_handler = CollisionHandler(screen_width=screen_width, screen_height=screen_height)
 
-        self.game = Game(self.screen, level_factory=level_factory, key_handler=key_handler,
+        self.game = OnlineGame(self.screen, level_factory=level_factory, key_handler=key_handler,
                          collision_handler=collision_handler, movement_handler=movement_handler,
                          on_game_end=self.on_game_end)
 
