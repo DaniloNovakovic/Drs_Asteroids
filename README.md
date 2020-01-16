@@ -12,6 +12,7 @@ School project for a Distributed Computer System class in Faculty of Technical S
 - [Usage Guide](#Usage-Guide)
   - [Menu](#Menu)
   - [Key Bindings](#Key-Bindings)
+  - [Game Rules](#Game-Rules)
 
 ---
 
@@ -56,7 +57,7 @@ All of the buttons (except `Score`) lead you to "settings" page from which you c
 
 Local multiplayer has following key bindings:
 
-| | Player1 | Player2 |
+| Action | Player1 | Player2 |
 | :--- | :---: | ---: |
 | **Shoot**  | `Spacebar`  | `Ctrl`|
 | **Accelerate** | `Up-Arrow` | `W` |
@@ -64,3 +65,25 @@ Local multiplayer has following key bindings:
 | **Rotate Left** | `Left-Arrow` | `A` |
 | **Rotate Right** | `Right-Arrow` | `D` |
 
+### Game Rules
+
+At the start of the game two players spawn at the center and asteroids are going towards them. 
+
+![Game display 2](./doc/in_game_screen_2.PNG)
+
+As they destroy asteroids they gain points which is displayed at the upper-left corner of the screen, as well as the name of the game (ex. "Game 1", "Game 2" or "Finale" in case of Tournament)
+
+![Tournament Game Info](./doc/tournament_game_display.PNG)
+
+Once both players are dead, the winner is the one who earned most points and his name is displayed on screen, with `Ok` button.
+
+![Winner display](./doc/winner_display.PNG)
+
+> In case of tournament clicking on `Ok` button will start next game in tournament
+
+#### Additional rules
+
+- Destroying asteroid will split it into two smaller parts (100 points for biggest, 150 for medium, and 200 for smallest)
+- At the start of new level all players that are alive will get 1000 points as reward
+- Players cannot hit each other
+- Upon hitting an asteroid players spaceship will _"grey out"_ for few seconds. During this time he will be invulnerable and he won't be able to shoot bullets.
