@@ -13,6 +13,10 @@ School project for a Distributed Computer System class in Faculty of Technical S
   - [Menu](#Menu)
   - [Key Bindings](#Key-Bindings)
   - [Game Rules](#Game-Rules)
+- [Architecture](#Architecture)
+  - [Core](#Core)
+  - [Entities](#Entities)
+  - [Storage](#Storage)
 
 ---
 
@@ -87,3 +91,56 @@ Once both players are dead, the winner is the one who earned most points and his
 - At the start of new level all players that are alive will get 1000 points as reward
 - Players cannot hit each other
 - Upon hitting an asteroid players spaceship will _"grey out"_ for few seconds. During this time he will be invulnerable and he won't be able to shoot bullets.
+- Collecting `heart` will grant player extra life.
+
+---
+
+## Architecture
+
+### Core
+
+`Core` folder holds core business logic for the game such as collision handling, position calculations, level creation, key-press handling and rendering.
+
+For each of these tasks mentioned aboved there exists a "handler" class that handles that part of the logic (as to adhere to SOLID principles)
+
+These handlers are then injected into `Game` class following the Strategy/Behavior design pattern who are then called from it's `start` (called once) and `update` (called periodically) methods.
+
+### Entities
+
+![Entities Class Diagram](./doc/entities_uml.PNG)
+
+Core class that is used for `x`, and `y` calculations (movement) is `MovableObject` class. It's methods are strictly tied to movement (such as `accelerate`, `deccelerate` and `rotate`)
+
+Using the decorator pattern (or it's variant) `MovableCircle` "decorates" it's parent's behavior by also updating the `Screen` (passed in it's constructor) upon calling any of the methods:
+
+```python
+class MovableCircle(MovableObject):
+  # ...
+  def move(self, elapsed_time: float):
+    super().move(elapsed_time)
+    self.label.move(self.top_left_x, self.top_left_y)
+    self.label.update()
+  # ...
+```
+
+Thus `MovableCircle` and it's variants are actually more of "ViewModel" classes then regular entities to be stored in databases since they have rendering logic instead of just raw data.
+
+![Player Class Diagram](./doc/player_Uml.PNG)
+
+Similarly, `Player` class calls `PlayerStatus`'s `update` method upon each modification to update player score label in the top left corner.
+
+```python
+class Player
+    # ...
+    def remove_life(self):
+        self.num_lives -= 1
+        self.update_status()
+
+    def update_status(self):
+        self.status.update(self.player_id, self.num_lives, self.num_points)
+    # ...
+```
+
+### Storage
+
+Acts like a local database. It holds collection of entities, also acts like repository by providing helpers methods such as "get_player_with_most_points", "get_alive_players" and similar, for cleaner code that is easier to mantain.
