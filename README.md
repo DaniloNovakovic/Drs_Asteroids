@@ -14,9 +14,10 @@ School project for a Distributed Computer System class in Faculty of Technical S
   - [Key Bindings](#Key-Bindings)
   - [Game Rules](#Game-Rules)
 - [Architecture](#Architecture)
-  - [Core](#Core)
   - [Entities](#Entities)
   - [Storage](#Storage)
+  - [Core](#Core)
+  - [Bootstrappers](#Bootstrappers)
 
 ---
 
@@ -71,7 +72,7 @@ Local multiplayer has following key bindings:
 
 ### Game Rules
 
-At the start of the game two players spawn at the center and asteroids are going towards them. 
+At the start of the game two players spawn at the center and asteroids are going towards them.
 
 ![Game display 2](./doc/in_game_screen_2.PNG)
 
@@ -96,14 +97,6 @@ Once both players are dead, the winner is the one who earned most points and his
 ---
 
 ## Architecture
-
-### Core
-
-`Core` folder holds core business logic for the game such as collision handling, position calculations, level creation, key-press handling and rendering.
-
-For each of these tasks mentioned aboved there exists a "handler" class that handles that part of the logic (as to adhere to SOLID principles)
-
-These handlers are then injected into `Game` class following the Strategy/Behavior design pattern who are then called from it's `start` (called once) and `update` (called periodically) methods.
 
 ### Entities
 
@@ -144,3 +137,17 @@ class Player
 ### Storage
 
 Acts like a local database. It holds collection of entities, also acts like repository by providing helpers methods such as "get_player_with_most_points", "get_alive_players" and similar, for cleaner code that is easier to mantain.
+
+### Core
+
+![Core Class Diagram](./doc/core_uml.PNG)
+
+`Core` folder holds core business logic for the game such as collision handling, position calculations, level creation, key-press handling and rendering.
+
+For each of these tasks mentioned aboved there exists a "handler" class that handles that part of the logic (as to adhere to SOLID principles)
+
+These handlers are then injected into `Game` class following the Strategy/Behavior design pattern who are then called from it's `start` (called once) and `update` (called periodically) methods.
+
+### Bootstrappers
+
+Classes like `AsteroidsGame` are "bootstrappers", meaning that they know how to handle **dependency injection** and start `Game` by calling their `start` method
