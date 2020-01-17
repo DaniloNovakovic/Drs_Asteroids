@@ -157,6 +157,7 @@ class TournamentWindow(QMainWindow):
             thread = Thread(target=start_tournament, args=(player1_input, player2_input, player3_input, player4_input))
             thread.daemon = True
             thread.start()
+            self.hide()
 
 
 def wi():

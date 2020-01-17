@@ -76,6 +76,7 @@ class SinglePlayerWindow(QMainWindow):
 
             self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - SinglePlayer")
             self.game.start()
+            self.hide()
 
 def wi():
     app = QApplication(sys.argv)
