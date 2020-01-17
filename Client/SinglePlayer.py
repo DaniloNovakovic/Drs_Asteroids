@@ -94,6 +94,7 @@ class SinglePlayerWindow(QMainWindow):
 
             _start_game_process(player1_input, title="Asteroids - SinglePlayer")
             self.hide()
+            self.player1NameLineEdit.setText("")
 
 
 def wi():

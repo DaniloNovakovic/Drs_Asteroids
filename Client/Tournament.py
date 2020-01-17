@@ -50,7 +50,7 @@ class TournamentWindow(QMainWindow):
         self.lbl2 = QLabel(self)
         self.lbl2.setText("Choose ship")
         self.lbl2.setGeometry(410, 150, 200, 50)
-        self.lbl2.setStyleSheet(" color: white;font-size: 26px; font-family: Arial Black;");
+        self.lbl2.setStyleSheet(" color: white;font-size: 26px; font-family: Arial Black;") ;
 
         self.player1Cb = QComboBox(self)
         self.player1Cb.setStyleSheet(
@@ -158,6 +158,10 @@ class TournamentWindow(QMainWindow):
             thread.daemon = True
             thread.start()
             self.hide()
+            self.player1NameLineEdit.setText("")
+            self.player2NameLineEdit.setText("")
+            self.player3NameLineEdit.setText("")
+            self.player4NameLineEdit.setText("")
 
 
 def wi():

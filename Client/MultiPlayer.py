@@ -150,6 +150,9 @@ class MultiPlayerWindow(QMainWindow):
 
             _start_game_process(player1_input, player2_input, title="Asteroids - Multi Player")
             self.hide()
+            self.player1NameLineEdit.setText("")
+            self.player2NameLineEdit.setText("")
+
 
     def onCreateButtonClicked(self):
         if self.player1NameLineEdit.text() == "" or str(self.player1Cb.currentText()) == "":
