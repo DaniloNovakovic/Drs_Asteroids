@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+from multiprocessing import Process
 
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPixmap
@@ -8,6 +9,25 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QCombo
 from AsteroidsGame import AsteroidsGame
 from core.utils.image_helper import get_full_image_path
 from entities.PlayerInput import PlayerInput
+
+
+def _start_game_process(player1_input, player2_input, title="Multi Player") -> str:
+    process = Process(target=_start_game, args=(player1_input.player_id, player1_input.color,
+                                                player2_input.player_id, player2_input.color,
+                                                title))
+    process.daemon = True
+    process.start()
+
+
+def _start_game(player1_id, player1_color, player2_id, player2_color, title="Multi Player"):
+    app = QApplication(sys.argv)
+    game = AsteroidsGame(
+        player_inputs=[
+            PlayerInput(player_id=player1_id, color=player1_color),
+            PlayerInput(player_id=player2_id, color=player2_color)
+        ], title=title)
+    game.start()
+    sys.exit(app.exec_())
 
 
 class MultiPlayerWindow(QMainWindow):
@@ -126,12 +146,11 @@ class MultiPlayerWindow(QMainWindow):
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
             player2_input = PlayerInput(player_id=self.player2NameLineEdit.text(), color=self.player2Cb.currentText())
 
-            self.game = AsteroidsGame(player_inputs=[player1_input, player2_input], title="Asteroids - MultiPlayer")
-            self.game.start()
+            _start_game_process(player1_input, player2_input, title="Asteroids - Multi Player")
             self.hide()
 
     def onCreateButtonClicked(self):
-        if self.player1NameLineEdit.text() == ""  or str(self.player1Cb.currentText()) == "" :
+        if self.player1NameLineEdit.text() == "" or str(self.player1Cb.currentText()) == "":
             msg = QMessageBox()
             msg.setIcon(QMessageBox.NoIcon)
             msg.setText("Enter your username and choose ship")
@@ -143,6 +162,8 @@ class MultiPlayerWindow(QMainWindow):
 
             self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - Client")
             self.game.start()
+
+
 def wi():
     app = QApplication(sys.argv)
     win = MultiPlayerWindow()

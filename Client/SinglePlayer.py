@@ -1,4 +1,6 @@
 import sys
+from multiprocessing import Process
+
 from AsteroidsGame import AsteroidsGame
 from entities.PlayerInput import PlayerInput
 
@@ -7,6 +9,23 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QComboBox, QMessageBox
 
 from core.utils.image_helper import get_full_image_path
+
+
+def _start_game_process(player1_input, title="Single Player") -> str:
+    process = Process(target=_start_game, args=(player1_input.player_id, player1_input.color,
+                                                title))
+    process.daemon = True
+    process.start()
+
+
+def _start_game(player1_id, player1_color, title="Single Player"):
+    app = QApplication(sys.argv)
+    game = AsteroidsGame(
+        player_inputs=[
+            PlayerInput(player_id=player1_id, color=player1_color)
+        ], title=title)
+    game.start()
+    sys.exit(app.exec_())
 
 
 class SinglePlayerWindow(QMainWindow):
@@ -37,7 +56,6 @@ class SinglePlayerWindow(QMainWindow):
         self.player1NameLineEdit = QLineEdit(self)
         self.player1NameLineEdit.setGeometry(200, 200, 200, 50)
 
-
     def chooseShip(self):
         self.choseShipLabel = QLabel(self)
         self.choseShipLabel.setText("Choose ship")
@@ -64,7 +82,7 @@ class SinglePlayerWindow(QMainWindow):
         self.playButton.clicked.connect(self.onPlayButtonClicked)
 
     def onPlayButtonClicked(self):
-        if self.player1NameLineEdit.text()=="" or str(self.player1Cb.currentText()) == "" :
+        if self.player1NameLineEdit.text() == "" or str(self.player1Cb.currentText()) == "":
             msg = QMessageBox()
             msg.setIcon(QMessageBox.NoIcon)
             msg.setText("Enter your username and choose ship")
@@ -74,9 +92,9 @@ class SinglePlayerWindow(QMainWindow):
 
             player1_input = PlayerInput(player_id=self.player1NameLineEdit.text(), color=self.player1Cb.currentText())
 
-            self.game = AsteroidsGame(player_inputs=[player1_input], title="Asteroids - SinglePlayer")
-            self.game.start()
+            _start_game_process(player1_input, title="Asteroids - SinglePlayer")
             self.hide()
+
 
 def wi():
     app = QApplication(sys.argv)
