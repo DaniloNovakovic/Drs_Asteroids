@@ -73,6 +73,8 @@ class AsteroidsGame:
         self.game.start()
 
 
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     asteroidsGame = AsteroidsGame(player_inputs=[
