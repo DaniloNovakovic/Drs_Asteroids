@@ -7,14 +7,16 @@ from entities.MovableObject import MovableObject
 
 class MovableCircle(MovableObject):
     def __init__(self, screen: QWidget, x: float = 0, y: float = 0, velocity: float = 0, angle: float = 0, r: int = 1,
-                 img_abs_path: str = ""):
+                 img_abs_path: str = "", gray_img_abs_path: str = ""):
         super().__init__(x=x, y=y, velocity=velocity, angle=angle)
         self.r = r
         self.img_abs_path = img_abs_path
         self.image = QImage(img_abs_path)
+        self.gray_image = QImage(gray_img_abs_path)
         self.screen = screen
         self.label = create_label(screen=screen, r=r)
         self.pixmap = create_pixmap(label=self.label, image=self.image)
+        self.gray_pixmap = create_pixmap(label=self.label, image=self.gray_image)
         self._rotate_label()
         self.label.show()
         self.move(0)

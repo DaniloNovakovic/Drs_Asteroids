@@ -14,17 +14,21 @@ class SpaceshipFactory:
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id,
                              player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_red_cropped.png"))
+                             img_abs_path=get_full_image_path("spaceship_red.png"),
+                             gray_img_abs_path=get_full_image_path("spaceship_red_grayscale.png"))
         elif color == 'green':
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_green_cropped.png"))
+                             img_abs_path=get_full_image_path("spaceship_green.png"),
+                             gray_img_abs_path=get_full_image_path("spaceship_green_grayscale.png"))
         elif color == 'yellow':
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_yellow_cropped.png"))
+                             img_abs_path=get_full_image_path("spaceship_yellow.png"),
+                             gray_img_abs_path=get_full_image_path("spaceship_yellow_grayscale.png"))
         else:
             return Spaceship(screen=self.screen, x=x, y=y, velocity=velocity, angle=angle, r=30,
                              spaceship_id=spaceship_id, player_id=player_id,
-                             img_abs_path=get_full_image_path("spaceship_blue_cropped.png"))
+                             img_abs_path=get_full_image_path("spaceship_blue.png"),
+                             gray_img_abs_path=get_full_image_path("spaceship_blue_grayscale.png"))
 
